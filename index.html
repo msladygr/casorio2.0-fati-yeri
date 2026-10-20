@@ -2,266 +2,295 @@
 <html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fati & Yeri • 03.04.2027</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* --- RESETEO TOTAL PARA EL CONCEPTO SOBRE --- */
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #121614;
-            color: #f4f1ea;
-            overflow-x: hidden;
             margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            width: 100%;
+            height: 100%;
+            /* El fondo del body es el color del papel del sobre */
+            background-color: #f3eee3; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
         h1, h2, h3, .font-editorial {
             font-family: 'Playfair Display', serif;
         }
 
-        /* Hojas otoñales de fondo */
-        .falling-leaves {
+        /* --- 1. LA SOLAPA DEL SOBRE (INMERSIVA) --- */
+        #envelope-flap {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
+            height: 55%; /* Ocupa la mitad superior */
+            background-color: #e1dccf; /* Un tono más oscuro para la solapa */
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); /* Forma geométrica de solapa */
             z-index: 100;
-            overflow: hidden;
-        }
-        .leaf {
-            position: absolute;
-            display: block;
-            width: 18px;
-            height: 18px;
-            background: #b89b72;
-            opacity: 0.35;
-            animation: fall linear infinite;
-            border-radius: 0 70% 0 70%;
-        }
-        .leaf:nth-child(2n) {
-            background: #946853;
-            border-radius: 70% 0 70% 0;
-        }
-        .leaf:nth-child(3n) {
-            background: #7a8670;
-        }
-        @keyframes fall {
-            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.5; }
-            50% { transform: translateX(50px) rotate(180deg); }
-            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            pointer-events: none; /* Para que no moleste al hacer click en el sello */
         }
 
-        /* --- SOBRE REAL INTERACTIVO (FASE 1) --- */
-        #intro-overlay {
+        #envelope-flap.open {
+            transform: rotateX(-180deg); /* Se abre hacia arriba */
+        }
+
+        /* --- 2. LA CUERPO DEL SOBRE (LA PARTE DE ABAJO) --- */
+        #envelope-body {
             position: fixed;
-            inset: 0;
-            background: #121614;
-            z-index: 200;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%; /* La otra mitad */
+            background-color: #f3eee3;
+            z-index: 50;
+        }
+
+        /* --- 3. EL SELLO DE LACRE (EL BOTÓN DE APERTURA) --- */
+        #wax-seal-btn {
+            position: fixed;
+            top: 48%; /* Justo en el centro de la pantalla */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            background-color: #8c3b32; /* Color lacre clásico */
+            border-radius: 50%;
+            z-index: 150; /* Por encima de la solapa */
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.8s ease 0.5s, visibility 0.8s ease 0.5s;
+            border: 2px solid #6b2b25;
+            -webkit-tap-highlight-color: transparent; /* Quita el halo azul de mobile */
         }
-        #intro-overlay.fade-out {
+
+        #wax-seal-btn:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            background-color: #a5443a;
+        }
+
+        #wax-seal-btn:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        #wax-seal-btn span {
+            font-family: 'Playfair Display', serif;
+            color: #fcfbfa;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+
+        /* Animación de ruptura del sello al hacer click */
+        #wax-seal-btn.breaking {
+             animation: breakSeal 0.5s ease-out forwards;
+        }
+
+        @keyframes breakSeal {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; visibility: hidden; }
+        }
+
+        /* --- 4. LA INVITACIÓN (LO QUE ESTÁ ADENTRO) --- */
+        #invitation-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            /* Este fondo debe contrastar suavemente con el sobre */
+            background-color: #1a221e; /* Un verde oscuro elegante */
+            color: #f4f1ea;
+            z-index: 25; /* Por debajo del sobre y la solapa */
+            padding: 60px 20px;
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
+            transition: opacity 0.5s ease 0.4s; /* Aparece cuando el sobre se abre */
         }
 
-        .envelope-wrapper {
-            width: 85%;
-            max-width: 380px;
-            height: 250px;
-            position: relative;
-            cursor: pointer;
-            perspective: 1000px;
+        #invitation-content.revealed {
+            opacity: 1;
+            visibility: visible;
         }
 
-        /* Cuerpo del sobre */
-        .envelope {
-            position: absolute;
-            inset: 0;
-            background: #1a221e;
-            border: 1px solid rgba(184, 155, 114, 0.3);
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            z-index: 2;
+        /* --- 5. ELEMENTOS DE LA INVITACIÓN (Mismo estilo editorial de siempre) --- */
+        .font-editorial { font-family: 'Playfair Display', serif; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Solapa superior del sobre */
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 125px;
-            background: #161c18;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            transform-origin: top;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 4;
-            border-bottom: 1px solid rgba(184, 155, 114, 0.2);
-        }
-        .envelope-wrapper.open .envelope-flap {
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
-
-        /* La tarjeta / invitación que sale del sobre */
-        .invite-card {
-            position: absolute;
-            bottom: 10px;
-            left: 5%;
-            width: 90%;
-            height: 210px;
-            background: #fcfbfa;
-            color: #121614;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 3;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
-        }
-        .envelope-wrapper.open .invite-card {
-            transform: translateY(-130px) scale(1.05);
-            z-index: 5;
-        }
-
-        /* Sello de Lacre Fino */
-        .wax-seal {
-            position: absolute;
-            top: 95px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: #8c3b32;
-            border: 2px solid #5c241f;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 6;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease;
-        }
-        .envelope-wrapper:hover .wax-seal {
-            transform: translateX(-50%) scale(1.1);
-        }
-        .wax-seal span {
-            font-family: 'Playfair Display', serif;
+        .agency-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 18px 20px;
             color: #f4f1ea;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 1px;
+            width: 100%;
+            font-size: 15px;
+            transition: all 0.3s ease;
         }
+        .agency-input:focus {
+            outline: none;
+            border-color: #b89b72;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
+        }
+        .agency-input option { background-color: #1a221e; }
+        .moving-btn { position: relative; transition: all 0.15s ease; }
     </style>
 </head>
-<body class="selection:bg-[#b89b72] selection:text-white">
+<body>
 
-    <!-- Capa de Hojas de Otoño -->
-    <div class="falling-leaves">
-        <span class="leaf" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></span>
-        <span class="leaf" style="left: 30%; animation-duration: 16s; animation-delay: 2s;"></span>
-        <span class="leaf" style="left: 50%; animation-duration: 10s; animation-delay: 1s;"></span>
-        <span class="leaf" style="left: 70%; animation-duration: 14s; animation-delay: 3s;"></span>
-        <span class="leaf" style="left: 90%; animation-duration: 11s; animation-delay: 1.5s;"></span>
+    <!-- LA SOLAPA SUPERIOR DEL SOBRE -->
+    <div id="envelope-flap"></div>
+    
+    <!-- EL CUERPO DEL SOBRE (LA MITAD INFERIOR) -->
+    <div id="envelope-body"></div>
+
+    <!-- EL SELLO DE LACRE (BOTÓN DE APERTURA) -->
+    <div id="wax-seal-btn" onclick="openEnvelope()">
+        <span>F&Y</span>
     </div>
 
-    <!-- PANTALLA DE APERTURA: SOBRE REAL INTERACTIVO (FASE 1) -->
-    <div id="intro-overlay">
-        <div class="text-center px-4 w-full flex flex-col items-center">
-            <p class="text-[10px] uppercase tracking-[0.3em] text-[#c4b59d] mb-8 font-semibold animate-pulse">Toca el sello para abrir</p>
-            
-            <!-- Contenedor del Sobre -->
-            <div class="envelope-wrapper" onclick="openRealEnvelope()">
-                <div class="envelope"></div>
-                <div class="envelope-flap"></div>
-                
-                <!-- Tarjeta oculta dentro del sobre -->
-                <div class="invite-card">
-                    <span class="text-[9px] uppercase tracking-[0.2em] text-[#8c3b32] font-bold mb-1">Boda Fati &amp; Yeri</span>
-                    <p class="font-editorial text-2xl text-[#121614] mb-1">03.04.2027</p>
-                    <p class="text-[10px] text-gray-600 italic">Entrando a la experiencia...</p>
-                </div>
-
-                <!-- Sello de Lacre -->
-                <div class="wax-seal">
-                    <span>F&Y</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- CONTENIDO PRINCIPAL DE LA WEB (FASE 1 - HERO) -->
-    <main class="w-full flex flex-col items-center justify-start">
+    <!-- LA INVITACIÓN COMPLETA (CONTENIDO OCULTO INICIALMENTE) -->
+    <div id="invitation-content">
         
         <!-- HERO SECTION -->
-        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
-
-            <div class="relative z-10 pt-8">
-                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">
+        <section class="min-h-screen flex flex-col justify-center items-center text-center border-b border-white/10 pb-24 pt-10">
+            <div class="mb-8">
+                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 shadow-sm">
                     03.04.2027 • Boda Editorial
                 </span>
             </div>
-
-            <div class="relative z-10 my-auto py-12">
-                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
+            <div class="my-auto">
+                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa]">
                     Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
                 </h1>
                 <p class="text-lg sm:text-2xl text-white/70 italic max-w-xl mx-auto font-light tracking-wide">
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
-
             <!-- Cuenta Regresiva -->
-            <div class="relative z-10 w-full max-w-md mx-auto pb-6">
+            <div class="w-full max-w-md mx-auto mt-16">
                 <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
-                    <div>
-                        <span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span>
-                    </div>
-                    <div>
-                        <span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span>
-                    </div>
-                    <div>
-                        <span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span>
-                    </div>
-                    <div>
-                        <span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span>
-                    </div>
+                    <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
+                    <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span></div>
+                    <div><span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span></div>
+                    <div><span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span></div>
                 </div>
             </div>
         </section>
 
-    </main>
+        <!-- BIENVENIDA -->
+        <section class="w-full py-32 px-6 flex flex-col items-center justify-center text-center border-b border-white/10">
+            <div class="max-w-2xl reveal">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
+                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
+                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
+                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
+                </p>
+                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
+            </div>
+        </section>
 
-    <!-- Script de la Fase 1 (Sobre Real) -->
+        <!-- RSVP / FORMULARIO INTERACTIVO -->
+        <section class="w-full py-32 px-6 flex flex-col items-center justify-center">
+            <div class="max-w-xl w-full reveal">
+                <div class="text-center mb-12">
+                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
+                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
+                </div>
+                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
+                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa">
+                    </div>
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
+                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
+                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
+                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
+                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
+                        </select>
+                    </div>
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
+                        <select name="transporte_compania" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
+                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
+                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
+                            <option value="con_compania">Vengo con mi +1 (traigo refuezos para aguantar hasta el amanecer).</option>
+                        </select>
+                    </div>
+                    <div class="pt-8 text-center">
+                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
+                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
+                            <button type="submit" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105">¡Sí, ahí estaré! 🥂</button>
+                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl">No puedo ir 🍃</button>
+                            <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
+                        </div>
+                    </div>
+                </form>
+                <div id="successMessage" class="hidden text-center py-16">
+                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
+                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados!</h3>
+                    <p class="text-white/60 text-sm italic">"Ya le avisamos al DJ que prepare la cumbia."</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Script de la Fase 1 (Sobre Inmersivo) -->
     <script>
-        function openRealEnvelope() {
-            const wrapper = document.querySelector('.envelope-wrapper');
-            const overlay = document.getElementById('intro-overlay');
+        function openEnvelope() {
+            const flap = document.getElementById('envelope-flap');
+            const seal = document.getElementById('wax-seal-btn');
+            const invitation = document.getElementById('invitation-content');
 
-            // Activa la animación CSS del sobre (abre solapa y desliza tarjeta)
-            wrapper.classList.add('open');
+            // 1. Anima la ruptura del sello
+            seal.classList.add('breaking');
 
-            // Desvanece el fondo oscuro y libera la web principal
+            // 2. Abre la solapa
             setTimeout(() => {
-                overlay.classList.add('fade-out');
+                flap.classList.add('open');
+            }, 150);
+
+            // 3. Revela el contenido de la invitación
+            setTimeout(() => {
+                invitation.classList.add('revealed');
+            }, 450);
+
+            // 4. Elimina el sello y el sobre del DOM para no molestar
+            setTimeout(() => {
+                seal.remove();
+                flap.remove();
+                document.getElementById('envelope-body').remove();
+                // Habilita el scroll de la página una vez abierta
+                document.body.style.overflow = 'auto';
             }, 1000);
         }
 
@@ -276,8 +305,36 @@
                 document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
             }
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        setInterval(updateCountdown, 1000); updateCountdown();
+
+        // Botón Escurridizo
+        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
+        function handleNoInteraction() {
+            intentoNo++;
+            if (intentoNo < 4) {
+                const x = Math.random() * (window.innerWidth < 640 ? 140 : 200) - 100;
+                const y = Math.random() * 100 - 50;
+                btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
+        }
+
+        // Scroll Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
+
+        // AJAX Formspree
+        const form = document.getElementById('weddingForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            try {
+                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            } catch (err) {
+                 form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>
