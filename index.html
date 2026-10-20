@@ -4,152 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fati & Yeri • 03.04.2027</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #121614;
-            color: #f4f1ea;
-            overflow-x: hidden;
-        }
-        h1, h2, h3, .font-editorial {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* Hojas otoñales sutiles de fondo */
-        .falling-leaves {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-            overflow: hidden;
-        }
-        .leaf {
-            position: absolute;
-            display: block;
-            width: 18px;
-            height: 18px;
-            background: #b89b72;
-            opacity: 0.35;
-            animation: fall linear infinite;
-            border-radius: 0 70% 0 70%;
-        }
-        .leaf:nth-child(2n) {
-            background: #946853;
-            border-radius: 70% 0 70% 0;
-        }
-        .leaf:nth-child(3n) {
-            background: #7a8670;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #121614; color: #f4f1ea; overflow-x: hidden; }
+        h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
+        
+        .falling-leaves { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; overflow: hidden; }
+        .leaf { position: absolute; display: block; width: 18px; height: 18px; background: #b89b72; opacity: 0.35; animation: fall linear infinite; border-radius: 0 70% 0 70%; }
+        .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
+        .leaf:nth-child(3n) { background: #7a8670; }
         @keyframes fall {
             0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.5; }
             50% { transform: translateX(50px) rotate(180deg); }
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- ESTILOS DEL SOBRE VIRTUAL 3D (FASE 1) --- */
-        #envelope-overlay {
-            position: fixed;
-            inset: 0;
-            background: #121614;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+        /* Pantalla de Entrada Glassmorphism */
+        #intro-overlay {
+            position: fixed; inset: 0; background: rgba(18, 22, 20, 0.85); backdrop-filter: blur(12px);
+            z-index: 200; display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
         }
-        #envelope-overlay.hidden-envelope {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
+        #intro-overlay.hidden-overlay { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        .envelope-container {
-            width: 90%;
-            max-width: 420px;
-            height: 280px;
-            background: #232b26;
-            border: 1px solid rgba(184, 155, 114, 0.3);
-            border-radius: 16px;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-            cursor: pointer;
-            transition: transform 0.5s ease;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px); border-radius: 2rem; padding: 40px; text-align: center;
+            max-width: 380px; width: 90%; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transform: scale(1); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
         }
-        .envelope-container:hover {
-            transform: scale(1.02);
-        }
+        #intro-overlay.hidden-overlay .glass-card { transform: scale(1.1); opacity: 0; }
 
-        /* Solapa superior del sobre */
-        .envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 140px;
-            background: #1c2420;
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 3;
+        .wax-seal-btn {
+            width: 75px; height: 75px; background: #8c3b32; border: 3px solid #6b2b25; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 24px auto 0 auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.3s ease, background 0.3s ease;
         }
-        .envelope-container.open .envelope-flap {
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
+        .wax-seal-btn:hover { transform: scale(1.08); background: #9c433a; }
+        .wax-seal-btn span { font-family: 'Playfair Display', serif; color: #f4f1ea; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
 
-        /* Sello de Lacre Interactivo */
-        .wax-seal {
-            position: absolute;
-            top: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 65px;
-            height: 65px;
-            background: #8c3b32;
-            border: 3px solid #6b2b25;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-            z-index: 10;
-            transition: transform 0.3s ease;
-        }
-        .wax-seal:hover {
-            transform: translateX(-50%) scale(1.08);
-        }
-        .wax-seal span {
-            font-family: 'Playfair Display', serif;
-            color: #f4f1ea;
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Contenido principal de la web (inicialmente oculto tras el sobre) */
-        main {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
+        .agency-input {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+            padding: 18px 20px; color: #f4f1ea; transition: all 0.3s ease; font-size: 15px; width: 100%;
         }
-        main.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .agency-input:focus { outline: none; border-color: #b89b72; background: rgba(255, 255, 255, 0.06); box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15); }
+        .agency-input option { background-color: #1a221e; color: #f4f1ea; }
+        .moving-btn { position: relative; transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
     </style>
 </head>
 <body class="selection:bg-[#b89b72] selection:text-white">
 
-    <!-- Capa de Hojas de Otoño -->
     <div class="falling-leaves">
         <span class="leaf" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></span>
         <span class="leaf" style="left: 30%; animation-duration: 16s; animation-delay: 2s;"></span>
@@ -158,44 +66,28 @@
         <span class="leaf" style="left: 90%; animation-duration: 11s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA INICIAL: SOBRE VIRTUAL 3D (FASE 1) -->
-    <div id="envelope-overlay">
-        <div class="text-center px-4">
-            <p class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Invitación Especial</p>
+    <!-- PANTALLA 1: GLASSMORPHISM & SELLO -->
+    <div id="intro-overlay">
+        <div class="glass-card">
+            <span class="text-[10px] uppercase tracking-[0.3em] text-[#c4b59d] font-semibold block mb-2">Boda Exclusiva</span>
+            <h2 class="font-editorial text-4xl text-[#f4f1ea] mb-2">Fati &amp; Yeri</h2>
+            <p class="text-xs text-white/60 italic mb-6 font-serif">03.04.2027</p>
+            <p class="text-xs text-white/80 leading-relaxed mb-4">Tenemos algo importante para contarte. Presioná el sello para entrar.</p>
             
-            <!-- El Sobre Interactivo -->
-            <div class="envelope-container mx-auto" onclick="openEnvelope()">
-                <div class="envelope-flap" id="envelopeFlap"></div>
-                
-                <!-- Sello de Lacre -->
-                <div class="wax-seal">
-                    <span>F&Y</span>
-                </div>
-
-                <!-- Texto interior del sobre simulado -->
-                <div class="absolute inset-0 flex flex-col items-center justify-end pb-8 z-1">
-                    <p class="font-editorial text-2xl text-[#f4f1ea] mb-1">Fati &amp; Yeri</p>
-                    <p class="text-[10px] tracking-[0.2em] text-[#c4b59d] uppercase">Toca el sello para abrir</p>
-                </div>
+            <div class="wax-seal-btn" onclick="openInvitation()">
+                <span>F&Y</span>
             </div>
-            
-            <p class="text-white/40 text-xs mt-6 tracking-widest uppercase">03.04.2027</p>
+            <p class="text-[9px] uppercase tracking-[0.2em] text-white/40 mt-4">Abrir invitación</p>
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
-    <main id="mainContent" class="w-full flex flex-col items-center justify-start">
-
-        <!-- 1. HERO SECTION (PORTADA) -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="w-full flex flex-col items-center justify-start">
         <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
-
             <div class="relative z-10 pt-8">
-                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md shadow-sm">
-                    03.04.2027 • Boda Editorial
-                </span>
+                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">03.04.2027 • Boda Editorial</span>
             </div>
-
             <div class="relative z-10 my-auto py-12">
                 <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
                     Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
@@ -204,72 +96,188 @@
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
-
-            <!-- Cuenta Regresiva -->
             <div class="relative z-10 w-full max-w-md mx-auto pb-6">
                 <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
-                    <div>
-                        <span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span>
+                    <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
+                    <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span></div>
+                    <div><span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span></div>
+                    <div><span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN BIENVENIDA -->
+        <section class="w-full py-24 px-6 text-center border-b border-white/10">
+            <div class="max-w-2xl reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
+                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
+                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
+                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
+                </p>
+                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
+            </div>
+        </section>
+
+        <!-- UBICACIÓN -->
+        <section class="w-full py-24 px-6 text-center bg-[#171e1a] border-b border-white/10">
+            <div class="max-w-xl w-full reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
+                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
+                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
+                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
+                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
+                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
+                        Chusmear el Instagram 🌿
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPOILER -->
+        <section class="w-full py-24 px-6 border-b border-white/10">
+            <div class="max-w-4xl w-full text-center reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Spoiler Alert 🍂</span>
+                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-16">Lo que te espera</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <span class="text-3xl block mb-4">🥂</span>
+                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Ceremonia</h4>
+                        <p class="text-xs text-white/70 leading-relaxed">Nada de iglesia: el cura nos prohibió la entrada por exceso de cumbia y porque la última vez casi bendecimos un fernet (¿pensabas que era porque somos lesbianas? na mi cielaaa). Todo en la quinta.</p>
                     </div>
-                    <div>
-                        <span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Pos</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span>
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <span class="text-3xl block mb-4">🍷</span>
+                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Morfi &amp; Barra</h4>
+                        <p class="text-xs text-white/70 leading-relaxed">Comida para reventar el pantalón, tragos a rolete y buena onda toda la tarde.</p>
                     </div>
-                    <div>
-                        <span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span>
-                    </div>
-                    <div>
-                        <span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
-                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span>
+                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                        <span class="text-3xl block mb-4">🪩</span>
+                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Fiesta</h4>
+                        <p class="text-xs text-white/70 leading-relaxed">Cumbia, trencitos imposibles y papelones asegurados hasta que nos saquen con carpa.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- RSVP -->
+        <section class="w-full py-24 px-6 bg-[#171e1a]">
+            <div class="max-w-xl w-full reveal mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
+                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
+                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
+                </div>
+                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
+                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
+                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
+                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
+                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
+                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
+                        </select>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
+                        <select name="transporte_compania" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
+                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
+                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
+                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
+                        </select>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">3. ¿Qué excusa argenta vas a usar por si te querés rajar temprano?</label>
+                        <select name="excusa_irse" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>Elegí una excusa antes de que me enoje 🙄</option>
+                            <option value="mal_piedra">Me dio el "mal de piedra" y la silla se me pegó al cuerpo.</option>
+                            <option value="perro">Tengo que ir a "darle de comer al perro" (a las 4 AM).</option>
+                            <option value="tios">Me puse a hablar de política con los tíos y me bajó la presión.</option>
+                        </select>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">4. Si armamos trencito y hay competencia de baile post-escabio:</label>
+                        <select name="estilo_baile" required class="agency-input cursor-pointer mb-6">
+                            <option value="" disabled selected>¿Cómo bailás?</option>
+                            <option value="helicoptero">El "helicóptero" sin coordinación y transpirando.</option>
+                            <option value="paso_prohibido">El meneaito con crujidos de rodillas incluidos.</option>
+                            <option value="mesa_dulce">Me quedo en la mesa dulce haciendo sociales para no papelonear.</option>
+                        </select>
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">Restricciones alimentarias:</label>
+                        <input type="text" name="restricciones" class="agency-input" placeholder="Vegano, celíaco, aire, o 'como absolutamente todo'">
+                    </div>
+                    <div class="pt-8 text-center">
+                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
+                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
+                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
+                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
+                                ¡Sí, ahí estaré! 🥂
+                            </button>
+                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
+                                No puedo ir 🍃
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div id="successMessage" class="hidden text-center py-16">
+                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
+                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
+                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Script de Apertura del Sobre y Cuenta Regresiva -->
+    <footer class="bg-[#0e1210] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
+        Fati &amp; Yeri • 03.04.2027
+    </footer>
+
     <script>
-        // Función para abrir el sobre virtual al hacer tap/click
-        function openEnvelope() {
-            const container = document.querySelector('.envelope-container');
-            const overlay = document.getElementById('envelope-overlay');
-            const main = document.getElementById('mainContent');
-
-            // Añade la clase que rota la solapa en 3D
-            container.classList.add('open');
-
-            // Después de que termine la animación del sobre, lo desvanece y muestra la web
-            setTimeout(() => {
-                overlay.classList.add('hidden-envelope');
-                main.classList.add('visible');
-            }, 700);
+        function openInvitation() {
+            document.getElementById('intro-overlay').classList.add('hidden-overlay');
         }
 
-        // Cuenta Regresiva al 3 de Abril de 2027
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
+
         const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
-
         function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
+            const now = new Date().getTime(), distance = weddingDate - now;
             if (distance > 0) {
                 document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
                 document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
-            } else {
-                document.getElementById('days').innerText = "0";
-                document.getElementById('hours').innerText = "0";
-                document.getElementById('minutes').innerText = "0";
-                document.getElementById('seconds').innerText = "0";
             }
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        setInterval(updateCountdown, 1000); updateCountdown();
+
+        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
+        function handleNoInteraction() {
+            intentoNo++;
+            if (intentoNo < 4) {
+                btnNo.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 100 - 50}px)`;
+            } else {
+                alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨');
+                btnNo.remove();
+            }
+        }
+
+        const form = document.getElementById('weddingForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            try {
+                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            } catch (err) {
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>
