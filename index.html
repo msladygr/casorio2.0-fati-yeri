@@ -10,39 +10,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            width: 100%;
-            background-color: #121614;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #f4f1ea;
+            margin: 0; padding: 0; overflow-x: hidden; width: 100%;
+            background-color: #121614; font-family: 'Plus Jakarta Sans', sans-serif; color: #f4f1ea;
         }
+        h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
 
-        h1, h2, h3, .font-editorial {
-            font-family: 'Playfair Display', serif;
-        }
-
-        /* --- SISTEMA DE HOJAS OTOÑALES FLOTANTES --- */
+        /* --- HOJAS OTOÑALES FLOTANTES --- */
         .falling-leaves {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 120;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 120; overflow: hidden;
         }
         .leaf {
-            position: absolute;
-            display: block;
-            width: 18px;
-            height: 18px;
-            background: #b89b72;
-            opacity: 0.4;
-            animation: fall linear infinite;
-            border-radius: 0 70% 0 70%;
+            position: absolute; display: block; width: 18px; height: 18px;
+            background: #b89b72; opacity: 0.4; animation: fall linear infinite; border-radius: 0 70% 0 70%;
         }
         .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
         .leaf:nth-child(3n) { background: #7a8670; }
@@ -52,143 +32,77 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* --- CONTENEDOR GENERAL DEL SOBRE (CENTRADO TIPO UNBOXING) --- */
+        /* --- SOBRE TIPO EDITORIAL DE LUJO --- */
         #envelope-overlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #1c2420 0%, #0d110f 100%);
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; inset: 0;
+            background: #161c18;
+            z-index: 200; display: flex; align-items: center; justify-content: center;
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
         }
-        #envelope-overlay.fade-out {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        #envelope-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .realistic-envelope {
+            position: relative; width: 90%; max-width: 440px; height: 310px;
+            background: #fdfbf7; border-radius: 6px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
 
-        .envelope-box {
-            position: relative;
-            width: 90%;
-            max-width: 400px;
-            height: 280px;
-            background: #f4f1ea; /* Papel marfil elegante */
-            border-radius: 8px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
-            perspective: 1200px;
-        }
-
-        /* Cuerpo inferior del sobre */
-        .envelope-pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #f4f1ea;
-            border-radius: 8px;
-            z-index: 3;
-            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
-        }
-
-        /* Solapa superior del sobre (la que se abre como en el video)[cite: 4] */
-        .envelope-flap-top {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 140px;
-            background: linear-gradient(135deg, #fcfbfa 0%, #eae4d8 100%);
+        /* Solapa superior simulada con elegancia */
+        .envelope-top-flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 155px;
+            background: linear-gradient(135deg, #ffffff 0%, #f4ede2 100%);
             clip-path: polygon(0 0, 50% 100%, 100% 0);
-            transform-origin: top;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            border-bottom: 1px solid rgba(184, 155, 114, 0.3);
             z-index: 5;
-            border-bottom: 1px solid rgba(184, 155, 114, 0.2);
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            transform-origin: top;
         }
-        .envelope-box.open .envelope-flap-top {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        /* Tarjeta interior (la que se desliza hacia arriba)[cite: 4] */
-        .invite-slide-card {
-            position: absolute;
-            bottom: 10px;
-            left: 5%;
-            width: 90%;
-            height: 240px;
-            background: #ffffff;
-            border: 1px solid #dcd6c8;
-            border-radius: 6px;
-            padding: 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3px;
-        }
-        .envelope-box.open .invite-slide-card {
-            transform: translateY(-135px) scale(1.03);
-            z-index: 4;
+        .realistic-envelope.open .envelope-top-flap {
+            transform: rotateX(180deg); z-index: 1;
         }
 
-        /* Sello de Lacre Dorado Brillante (Estilo Video) */
-        .golden-seal {
-            position: absolute;
-            top: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 75px;
-            height: 75px;
-            background: radial-gradient(circle at 35% 35%, #f3e0aa 0%, #d4af37 60%, #997a15 100%);
-            border-radius: 50%;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.6);
-            border: 2px solid #b39228;
-            cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+        /* Sello Dorado Central con Relieve */
+        .gold-seal-btn {
+            position: absolute; top: 135px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 80px;
+            background: radial-gradient(circle at 30% 30%, #fceabb 0%, #f3d06b 50%, #b89322 100%);
+            border-radius: 50%; z-index: 20;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid #8c6d16;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7);
+            cursor: pointer; transition: transform 0.3s ease, opacity 0.5s ease;
         }
-        .golden-seal:hover {
-            transform: translateX(-50%) scale(1.08);
+        .gold-seal-btn:hover { transform: translateX(-50%) scale(1.06); }
+        .gold-seal-btn span {
+            font-family: 'Playfair Display', serif; color: #4a3809;
+            font-size: 22px; font-weight: bold; letter-spacing: 1px; pointer-events: none;
         }
-        .golden-seal span {
-            font-family: 'Playfair Display', serif;
-            color: #4a3b0c;
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.4);
-            pointer-events: none;
-        }
-        .envelope-box.open .golden-seal {
-            opacity: 0;
-            transform: translateX(-50%) scale(0.5);
-            pointer-events: none;
+        .realistic-envelope.open .gold-seal-btn {
+            opacity: 0; transform: translateX(-50%) scale(0.5); pointer-events: none;
         }
 
-        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
+        /* Tarjeta que emerge */
+        .inner-card {
+            position: absolute; bottom: 15px; width: 88%; height: 260px;
+            background: #ffffff; border-radius: 4px; padding: 25px; text-align: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+        .realistic-envelope.open .inner-card {
+            transform: translateY(-130px) scale(1.02); z-index: 10;
+        }
+
         #main-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1.2s ease 0.8s, transform 1.2s ease 0.8s;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
         }
-        #main-content.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        #main-content.revealed { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- Lluvia de Hojas de Otoño -->
     <div class="falling-leaves">
         <span class="leaf" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></span>
         <span class="leaf" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></span>
@@ -197,43 +111,36 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- SOBRE TIPO UNBOXING (FASE 1) -->
+    <!-- SOBRE DE LUJO -->
     <div id="envelope-overlay">
         <div class="text-center w-full flex flex-col items-center">
-            <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello dorado para abrir</p>
+            <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Presiona el sello dorado</p>
             
-            <div class="envelope-box" id="envelopeBox" onclick="openVideoEnvelope()">
-                <div class="envelope-pocket"></div>
-                <div class="envelope-flap-top"></div>
+            <div class="realistic-envelope" id="envBox" onclick="openLuxuryEnvelope()">
+                <div class="envelope-top-flap"></div>
                 
-                <!-- Tarjeta interior que sale deslizándose -->
-                <div class="invite-slide-card">
-                    <span class="text-[9px] uppercase tracking-[0.25em] text-[#b89b72] font-bold mb-2">Boda Exclusiva</span>
-                    <h2 class="font-editorial text-2xl text-[#121614] mb-1">Fati &amp; Yeri</h2>
+                <div class="inner-card">
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#b89b72] font-bold mb-3">Save The Date</span>
+                    <h2 class="font-editorial text-3xl text-[#121614] mb-2">Fati &amp; Yeri</h2>
                     <p class="text-xs text-gray-500 italic font-serif">03.04.2027</p>
                 </div>
 
-                <!-- Sello Dorado -->
-                <div class="golden-seal">
+                <div class="gold-seal-btn">
                     <span>F&Y</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen">
-        
-        <!-- HERO SECTION -->
         <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
-
             <div class="relative z-10 pt-8">
                 <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">
                     03.04.2027 • Boda Editorial
                 </span>
             </div>
-
             <div class="relative z-10 my-auto py-12">
                 <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
                     Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
@@ -242,8 +149,6 @@
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
-
-            <!-- Cuenta Regresiva -->
             <div class="relative z-10 w-full max-w-md mx-auto pb-6">
                 <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
                     <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
@@ -253,32 +158,22 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- Script de Animación Unboxing -->
     <script>
-        function openVideoEnvelope() {
-            const box = document.getElementById('envelopeBox');
+        function openLuxuryEnvelope() {
+            const box = document.getElementById('envBox');
             const overlay = document.getElementById('envelope-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Activa la clase que abre la solapa y desliza la tarjeta hacia arriba
             box.classList.add('open');
-
-            // 2. Funde la pantalla del sobre hacia la web principal
             setTimeout(() => {
                 overlay.classList.add('fade-out');
                 mainContent.classList.add('revealed');
-            }, 1100);
-
-            // 3. Remueve el overlay del DOM
-            setTimeout(() => {
-                overlay.remove();
-            }, 2200);
+            }, 1000);
+            setTimeout(() => { overlay.remove(); }, 2000);
         }
 
-        // Cuenta Regresiva
         const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
         function updateCountdown() {
             const now = new Date().getTime(), distance = weddingDate - now;
@@ -289,8 +184,7 @@
                 document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
             }
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        setInterval(updateCountdown, 1000); updateCountdown();
     </script>
 </body>
 </html>
