@@ -11,7 +11,7 @@
     <style>
         body {
             margin: 0; padding: 0; overflow-x: hidden; width: 100%;
-            background-color: #121614; font-family: 'Plus Jakarta Sans', sans-serif; color: #f4f1ea;
+            background-color: #0d110f; font-family: 'Plus Jakarta Sans', sans-serif; color: #f4f1ea;
         }
         h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
 
@@ -22,115 +22,110 @@
         }
         .leaf {
             position: absolute; display: block; width: 18px; height: 18px;
-            background: #b89b72; opacity: 0.4; animation: fall linear infinite; border-radius: 0 70% 0 70%;
+            background: #b89b72; opacity: 0.35; animation: fall linear infinite; border-radius: 0 70% 0 70%;
         }
         .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
         .leaf:nth-child(3n) { background: #7a8670; }
         @keyframes fall {
-            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.6; }
+            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.5; }
             50% { transform: translateX(40px) rotate(180deg); }
-            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
+            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- CONTENEDOR GENERAL SOBRE RÚSTICO --- */
-        #envelope-overlay {
-            position: fixed; inset: 0;
-            background: radial-gradient(circle at center, #1e2621 0%, #0b0f0d 100%);
-            z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
-        }
-        #envelope-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
-
-        .rustic-envelope-wrapper {
-            position: relative;
-            width: 360px;
-            height: 250px;
-            background: #fdfbf7; /* Fondo tipo encaje blanco */
-            border-radius: 6px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.7);
-            cursor: pointer;
-            perspective: 1400px;
-            overflow: hidden;
-        }
-
-        /* Simulación de textura de encaje fino en el fondo del sobre */
-        .lace-bg {
-            position: absolute; inset: 0;
-            background-image: radial-gradient(#e5ddd0 1px, transparent 1px), radial-gradient(#e5ddd0 1px, #fdfbf7 1px);
-            background-size: 16px 16px;
-            background-position: 0 0, 8px 8px;
-            opacity: 0.7;
-        }
-
-        /* Solapa de Papel Artesanal Bordó con borde rasgado simulado */
-        .burgundy-flap {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 140px;
-            background: #5c1d24; /* Tono borgoña / vino profundo */
-            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 0);
-            background-size: 4px 4px; /* Simula la textura fibrosa del papel artesanal */
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            transform-origin: top;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-            z-index: 15;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border-bottom: 2px dashed rgba(212, 175, 55, 0.3);
-        }
-        .rustic-envelope-wrapper.open .burgundy-flap {
-            transform: rotateX(-180deg);
-            z-index: 1;
-        }
-
-        /* Tarjeta Interior Opalina */
-        .inner-card {
-            position: absolute;
-            bottom: 15px; left: 5%; width: 90%; height: 215px;
-            background: #ffffff;
-            border: 1px solid #dcd6c8; border-radius: 4px;
-            padding: 24px; text-align: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 2; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-        }
-        .rustic-envelope-wrapper.open .inner-card {
-            transform: translateY(-130px) scale(1.03);
-            z-index: 10;
-        }
-
-        /* Sello de Lacre Bordó con Escudo Dorado en Relieve */
-        .burgundy-gold-seal {
-            position: absolute;
-            top: 115px; left: 50%; transform: translateX(-50%);
-            width: 75px; height: 75px;
-            background: radial-gradient(circle at 35% 35%, #7a2631 0%, #5c1d24 60%, #3a1015 100%);
-            border-radius: 50%; z-index: 20;
+        /* --- INTRO: CORTINA EDITORIAL DIVIDIDA (SPLIT SCREEN) --- */
+        #intro-overlay {
+            position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
-            border: 2px solid #d4af37; /* Borde dorado metálico */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.3);
-            transition: transform 0.4s ease, opacity 0.5s ease;
+            pointer-events: auto; transition: visibility 1.2s ease;
         }
-        .burgundy-gold-seal span {
-            font-family: 'Playfair Display', serif;
-            color: #d4af37; /* Iniciales en dorado metálico */
-            font-size: 16px; font-weight: bold; letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-            pointer-events: none;
-            text-align: center;
-            line-height: 1.1;
-        }
-        .rustic-envelope-wrapper.open .burgundy-gold-seal {
-            opacity: 0; transform: translateX(-50%) scale(0.4) rotate(45deg); pointer-events: none;
+        #intro-overlay.hidden-intro {
+            visibility: hidden; pointer-events: none;
         }
 
-        #main-content {
-            opacity: 0; transform: translateY(20px);
-            transition: opacity 1.2s ease 0.6s, transform 1.2s ease 0.6s;
+        /* Mitad Izquierda de la Cortina */
+        .curtain-left, .curtain-right {
+            position: absolute; top: 0; width: 50%; height: 100%;
+            background-color: #0d110f;
+            background-image: radial-gradient(circle at center, rgba(25,33,29,0.5) 0%, #0d110f 100%);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            z-index: 210;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
         }
-        #main-content.revealed { opacity: 1; transform: translateY(0); }
+        .curtain-left { left: 0; border-right: 0.5px solid rgba(255,255,255,0.08); }
+        .curtain-right { right: 0; border-left: 0.5px solid rgba(255,255,255,0.08); }
+
+        /* Acción de apertura: se abren hacia los costados */
+        #intro-overlay.open .curtain-left {
+            transform: translateX(-100%);
+        }
+        #intro-overlay.open .curtain-right {
+            transform: translateX(100%);
+        }
+
+        /* Contenido Central de la Intro (Texto y Botón) */
+        .intro-content {
+            position: relative; z-index: 220; text-align: center; padding: 0 20px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        #intro-overlay.open .intro-content {
+            opacity: 0; transform: scale(0.95); pointer-events: none;
+        }
+
+        /* Botón Editorial Minimalista de Ingreso */
+        .editorial-btn {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid rgba(244, 241, 234, 0.3);
+            color: #f4f1ea;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 35px;
+        }
+        .editorial-btn:hover {
+            border-color: #c4b59d;
+            background: rgba(196, 181, 157, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
+        #main-content {
+            opacity: 0; transform: translateY(15px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+        }
+        #main-content.revealed {
+            opacity: 1; transform: translateY(0);
+        }
+
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .agency-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px; padding: 18px 20px; color: #f4f1ea; width: 100%; font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        .agency-input:focus {
+            outline: none; border-color: #b89b72; background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
+        }
+        .agency-input option { background-color: #1a221e; color: #f4f1ea; }
+        .moving-btn { position: relative; transition: all 0.15s ease; cursor: pointer; }
     </style>
 </head>
 <body>
 
+    <!-- Lluvia de Hojas de Otoño -->
     <div class="falling-leaves">
         <span class="leaf" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></span>
         <span class="leaf" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></span>
@@ -139,40 +134,37 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- SOBRE RÚSTICO BORDÓ CON ENCAJE (FASE 1) -->
-    <div id="envelope-overlay">
-        <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello para abrir</p>
+    <!-- PANTALLA DE ENTRADA: CORTINA EDITORIAL SPLIT SCREEN -->
+    <div id="intro-overlay">
+        <div class="curtain-left"></div>
+        <div class="curtain-right"></div>
         
-        <div class="rustic-envelope-wrapper" id="envBox" onclick="openRusticEnvelope()">
-            <!-- Fondo con textura de encaje -->
-            <div class="lace-bg"></div>
-
-            <!-- Tarjeta Interior -->
-            <div class="inner-card">
-                <span class="text-[9px] uppercase tracking-[0.3em] text-[#b89b72] font-bold mb-2">Save The Date</span>
-                <h2 class="font-editorial text-2xl text-[#121614] mb-1">Fati &amp; Yeri</h2>
-                <p class="text-[11px] text-gray-500 italic font-serif">03.04.2027</p>
-            </div>
-
-            <!-- Solapa Borgoña Artesanal -->
-            <div class="burgundy-flap"></div>
-
-            <!-- Sello Lacre Borgoña con Escudo Dorado -->
-            <div class="burgundy-gold-seal">
-                <span>F&amp;Y<br><span style="font-size: 8px; font-weight: normal; opacity: 0.8;">2027</span></span>
-            </div>
+        <div class="intro-content">
+            <span class="text-[10px] uppercase tracking-[0.4em] text-[#c4b59d] block mb-4 font-semibold">Boda Exclusiva</span>
+            <h1 class="font-editorial text-6xl sm:text-8xl text-[#f4f1ea] mb-3 tracking-tight">
+                Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
+            </h1>
+            <p class="text-xs text-white/50 tracking-[0.3em] uppercase font-serif mb-2">03.04.2027</p>
+            
+            <button onclick="openEditorialCurtain()" class="editorial-btn">
+                Ingresar a la experiencia ✨
+            </button>
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
     <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen">
+        
+        <!-- HERO SECTION -->
         <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(13,17,15,1)_100%)] pointer-events-none"></div>
+
             <div class="relative z-10 pt-8">
                 <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">
                     03.04.2027 • Boda Editorial
                 </span>
             </div>
+
             <div class="relative z-10 my-auto py-12">
                 <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
                     Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
@@ -181,6 +173,8 @@
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
+
+            <!-- Cuenta Regresiva -->
             <div class="relative z-10 w-full max-w-md mx-auto pb-6">
                 <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
                     <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
@@ -190,22 +184,122 @@
                 </div>
             </div>
         </section>
+
+        <!-- SECCIÓN DE BIENVENIDA -->
+        <section class="w-full py-24 px-6 text-center border-b border-white/10 bg-[#0d110f]">
+            <div class="max-w-2xl reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
+                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
+                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
+                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
+                </p>
+                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
+            </div>
+        </section>
+
+        <!-- UBICACIÓN (LA POSADA DE LEÓN) -->
+        <section class="w-full py-24 px-6 text-center bg-[#131916] border-b border-white/10">
+            <div class="max-w-xl w-full reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
+                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
+                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
+                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
+                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
+                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
+                        Chusmear el Instagram 🌿
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP / FORMULARIO INTERACTIVO -->
+        <section class="w-full py-24 px-6 bg-[#131916]">
+            <div class="max-w-xl w-full reveal mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
+                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
+                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
+                </div>
+
+                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
+                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
+                    </div>
+
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
+                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
+                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
+                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
+                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
+                        </select>
+                    </div>
+
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
+                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
+                        <select name="transporte_compania" required class="agency-input cursor-pointer">
+                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
+                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
+                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
+                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
+                        </select>
+                    </div>
+
+                    <div class="pt-8 text-center">
+                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
+                        
+                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
+
+                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
+                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
+                                ¡Sí, ahí estaré! 🥂
+                            </button>
+
+                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
+                                No puedo ir 🍃
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="successMessage" class="hidden text-center py-16">
+                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
+                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
+                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
+    <!-- FOOTER -->
+    <footer class="bg-[#0a0e0c] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
+        Fati &amp; Yeri • 03.04.2027
+    </footer>
+
+    <!-- Script de Animación e Interacciones -->
     <script>
-        function openRusticEnvelope() {
-            const box = document.getElementById('envBox');
-            const overlay = document.getElementById('envelope-overlay');
+        function openEditorialCurtain() {
+            const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            box.classList.add('open');
+            // 1. Activa la apertura de la cortina dividida
+            overlay.classList.add('open');
+
+            // 2. Revela el contenido principal con fundido suave
             setTimeout(() => {
-                overlay.classList.add('fade-out');
                 mainContent.classList.add('revealed');
-            }, 1100);
-            setTimeout(() => { overlay.remove(); }, 2300);
+            }, 300);
+
+            // 3. Remueve el overlay por completo del DOM al terminar la transición
+            setTimeout(() => {
+                overlay.classList.add('hidden-intro');
+            }, 1200);
         }
 
+        // Cuenta Regresiva
         const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
         function updateCountdown() {
             const now = new Date().getTime(), distance = weddingDate - now;
@@ -216,7 +310,37 @@
                 document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
             }
         }
-        setInterval(updateCountdown, 1000); updateCountdown();
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Scroll Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
+
+        // Botón Escurridizo
+        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
+        function handleNoInteraction() {
+            intentoNo++;
+            if (intentoNo < 4) {
+                const x = Math.random() * 160 - 80;
+                const y = Math.random() * 100 - 50;
+                btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
+        }
+
+        // Envío Formspree
+        const form = document.getElementById('weddingForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            try {
+                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            } catch (err) {
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>
