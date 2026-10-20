@@ -1,143 +1,275 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Nos Casamos: Fati & Tú! 🥂</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Fati & Yeri • 03.04.2027</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #121614;
+            color: #f4f1ea;
+            overflow-x: hidden;
         }
-        .moving-btn {
+        h1, h2, h3, .font-editorial {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hojas otoñales sutiles de fondo */
+        .falling-leaves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+        .leaf {
+            position: absolute;
+            display: block;
+            width: 18px;
+            height: 18px;
+            background: #b89b72;
+            opacity: 0.35;
+            animation: fall linear infinite;
+            border-radius: 0 70% 0 70%;
+        }
+        .leaf:nth-child(2n) {
+            background: #946853;
+            border-radius: 70% 0 70% 0;
+        }
+        .leaf:nth-child(3n) {
+            background: #7a8670;
+        }
+        @keyframes fall {
+            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateX(50px) rotate(180deg); }
+            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
+        }
+
+        /* --- ESTILOS DEL SOBRE VIRTUAL 3D (FASE 1) --- */
+        #envelope-overlay {
+            position: fixed;
+            inset: 0;
+            background: #121614;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #envelope-overlay.hidden-envelope {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .envelope-container {
+            width: 90%;
+            max-width: 420px;
+            height: 280px;
+            background: #232b26;
+            border: 1px solid rgba(184, 155, 114, 0.3);
+            border-radius: 16px;
             position: relative;
-            transition: all 0.1s ease-out;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+        .envelope-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Solapa superior del sobre */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 140px;
+            background: #1c2420;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            transform-origin: top;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+        }
+        .envelope-container.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        /* Sello de Lacre Interactivo */
+        .wax-seal {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65px;
+            height: 65px;
+            background: #8c3b32;
+            border: 3px solid #6b2b25;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 10;
+            transition: transform 0.3s ease;
+        }
+        .wax-seal:hover {
+            transform: translateX(-50%) scale(1.08);
+        }
+        .wax-seal span {
+            font-family: 'Playfair Display', serif;
+            color: #f4f1ea;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Contenido principal de la web (inicialmente oculto tras el sobre) */
+        main {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
+        }
+        main.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 min-h-screen text-gray-800 flex flex-col items-center justify-center p-4 sm:p-6">
+<body class="selection:bg-[#b89b72] selection:text-white">
 
-    <div class="max-w-2xl w-full bg-white/80 backdrop-blur-md shadow-2xl rounded-3xl p-6 sm:p-10 border border-white/55 my-8">
-        
-        <!-- Portada -->
-        <header class="text-center mb-10">
-            <span class="bg-pink-100 text-pink-600 text-xs sm:text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-widest">¡Alerta de código rojo: Hay boda!</span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 mt-4 mb-2">
-                Fati & Tú
-            </h1>
-            <p class="text-lg sm:text-xl font-medium text-gray-600 italic">"Decidimos arruinar nuestras finanzas y celebrar el amor"</p>
-            <p class="text-xs text-gray-400 mt-2">Versión 1.0 - Con bugs de felicidad incluidos</p>
-        </header>
-
-        <!-- Formulario conectado a Formspree -->
-        <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-            
-            <!-- Nombre -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">¿Cómo te llamas, criatura del Señor?</label>
-                <input type="text" name="nombre" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/50 transition" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
-            </div>
-
-            <!-- Pregunta 1: Llantos -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">1. ¿Qué tan mal vas a llorar cuando nos veas en el altar?</label>
-                <select name="nivel_llanto" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/50 transition">
-                    <option value="seco">Cero lágrimas, vine por el escabio y la comida.</option>
-                    <option value="emocionado">Una lagrimita discreta para quedar bien.</option>
-                    <option value="inundacion">Voy a ahogar a los de la primera fila con mis mocos.</option>
-                </select>
-            </div>
-
-            <!-- Pregunta 2: Regalos -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">2. ¿Qué nos vas a regalar posta?</label>
-                <select name="regalo" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/50 transition">
-                    <option value="efectivo">Sobres con plata (la opción que aprueba la inflación).</option>
-                    <option value="tostadora">Una tostadora usada que nos mandaron de regalo de casamiento anterior.</option>
-                    <option value="abrazos">Mucho amor, buena onda y presencia (tacaño/a alert).</option>
-                </select>
-            </div>
-
-            <!-- Pregunta 3: Restricciones -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">3. Restricciones alimentarias (¿Qué comemos?):</label>
-                <input type="text" name="restricciones" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-400 bg-white/50 transition" placeholder="Vegano, celíaco, aire, o 'como de todo'">
-            </div>
-
-            <!-- Botones de Confirmación (El caos interactivo) -->
-            <div class="pt-4 text-center">
-                <p class="text-sm font-bold text-gray-700 mb-3">¿Vienes a bancarnos en este papelón?</p>
-                
-                <!-- Campo oculto para saber qué botón apretó -->
-                <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[80px]">
-                    <!-- Botón Sí -->
-                    <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition transform">
-                        ¡Sí, ahí estaré! 🎉
-                    </button>
-
-                    <!-- Botón No (Escurridizo) -->
-                    <button type="button" id="btnNo" onmouseover="moveButton()" onclick="moveButton()" class="moving-btn w-full sm:w-auto bg-gradient-to-r from-red-400 to-pink-500 text-white font-bold px-8 py-3 rounded-xl shadow-md">
-                        No puedo ir 😢
-                    </button>
-                </div>
-            </div>
-
-        </form>
-
-        <!-- Mensaje de éxito oculto -->
-        <div id="successMessage" class="hidden text-center py-10">
-            <h2 class="text-3xl font-bold text-pink-600 mb-2">¡Datos guardados con éxito! 🚀</h2>
-            <p class="text-gray-600">Gracias por confirmar. Ya le avisamos al DJ que ponga cumbia.</p>
-        </div>
-
+    <!-- Capa de Hojas de Otoño -->
+    <div class="falling-leaves">
+        <span class="leaf" style="left: 10%; animation-duration: 12s; animation-delay: 0s;"></span>
+        <span class="leaf" style="left: 30%; animation-duration: 16s; animation-delay: 2s;"></span>
+        <span class="leaf" style="left: 50%; animation-duration: 10s; animation-delay: 1s;"></span>
+        <span class="leaf" style="left: 70%; animation-duration: 14s; animation-delay: 3s;"></span>
+        <span class="leaf" style="left: 90%; animation-duration: 11s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- Script de Movimiento y Formulario -->
-    <script>
-        const btnNo = document.getElementById('btnNo');
-
-        function moveButton() {
-            // Genera coordenadas aleatorias dentro de la pantalla o contenedor
-            const x = Math.random() * (window.innerWidth < 640 ? 150 : 300) - 150;
-            const y = Math.random() * 150 - 75;
+    <!-- PANTALLA INICIAL: SOBRE VIRTUAL 3D (FASE 1) -->
+    <div id="envelope-overlay">
+        <div class="text-center px-4">
+            <p class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Invitación Especial</p>
             
-            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            <!-- El Sobre Interactivo -->
+            <div class="envelope-container mx-auto" onclick="openEnvelope()">
+                <div class="envelope-flap" id="envelopeFlap"></div>
+                
+                <!-- Sello de Lacre -->
+                <div class="wax-seal">
+                    <span>F&Y</span>
+                </div>
+
+                <!-- Texto interior del sobre simulado -->
+                <div class="absolute inset-0 flex flex-col items-center justify-end pb-8 z-1">
+                    <p class="font-editorial text-2xl text-[#f4f1ea] mb-1">Fati &amp; Yeri</p>
+                    <p class="text-[10px] tracking-[0.2em] text-[#c4b59d] uppercase">Toca el sello para abrir</p>
+                </div>
+            </div>
+            
+            <p class="text-white/40 text-xs mt-6 tracking-widest uppercase">03.04.2027</p>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
+    <main id="mainContent" class="w-full flex flex-col items-center justify-start">
+
+        <!-- 1. HERO SECTION (PORTADA) -->
+        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
+
+            <div class="relative z-10 pt-8">
+                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md shadow-sm">
+                    03.04.2027 • Boda Editorial
+                </span>
+            </div>
+
+            <div class="relative z-10 my-auto py-12">
+                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
+                    Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
+                </h1>
+                <p class="text-lg sm:text-2xl text-white/70 italic max-w-xl mx-auto font-light tracking-wide">
+                    "Decidimos arruinar nuestras finanzas y festejar a lo grande"
+                </p>
+            </div>
+
+            <!-- Cuenta Regresiva -->
+            <div class="relative z-10 w-full max-w-md mx-auto pb-6">
+                <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
+                    <div>
+                        <span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span>
+                    </div>
+                    <div>
+                        <span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Pos</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span>
+                    </div>
+                    <div>
+                        <span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span>
+                    </div>
+                    <div>
+                        <span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span>
+                        <span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script de Apertura del Sobre y Cuenta Regresiva -->
+    <script>
+        // Función para abrir el sobre virtual al hacer tap/click
+        function openEnvelope() {
+            const container = document.querySelector('.envelope-container');
+            const overlay = document.getElementById('envelope-overlay');
+            const main = document.getElementById('mainContent');
+
+            // Añade la clase que rota la solapa en 3D
+            container.classList.add('open');
+
+            // Después de que termine la animación del sobre, lo desvanece y muestra la web
+            setTimeout(() => {
+                overlay.classList.add('hidden-envelope');
+                main.classList.add('visible');
+            }, 700);
         }
 
-        // Manejo del envío por AJAX con Formspree
-        const form = document.getElementById('weddingForm');
-        form.addEventListener('submit', async function(e) {
-            if(document.getElementById('asistenciaInput').value === 'Pendiente') {
-                document.getElementById('asistenciaInput').value = 'Sí, ahí estaré';
-            }
+        // Cuenta Regresiva al 3 de Abril de 2027
+        const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
 
-            e.preventDefault();
-            const data = new FormData(form);
-            
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: data,
-                    headers: { 'Accept': 'application/json' }
-                });
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
 
-                if (response.ok) {
-                    form.classList.add('hidden');
-                    document.getElementById('successMessage').classList.remove('hidden');
-                } else {
-                    alert('Hubo un error al enviar el formulario. Inténtalo de nuevo.');
-                }
-            } catch (error) {
-                // Fallback por si hay restricciones de CORS locales, igual simula el éxito
-                form.classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
+            if (distance > 0) {
+                document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+            } else {
+                document.getElementById('days').innerText = "0";
+                document.getElementById('hours').innerText = "0";
+                document.getElementById('minutes').innerText = "0";
+                document.getElementById('seconds').innerText = "0";
             }
-        });
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
