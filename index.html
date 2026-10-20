@@ -81,17 +81,18 @@
             opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Alianzas Entrelazadas con Movimiento de Rotación y Flotación Suave */
-        .interlocked-rings {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 28px auto;
+        /* Alianzas Realistas con Mayor Tamaño y Animación 3D */
+        .realistic-rings {
+            width: 85px; /* Tamaño imponente y protagonista */
+            height: 85px;
+            margin: 0 auto 32px auto;
             animation: ringFloatAndRotate 6s ease-in-out infinite;
             transform-style: preserve-3d;
+            filter: drop-shadow(0 10px 15px rgba(140, 115, 85, 0.25));
         }
         @keyframes ringFloatAndRotate {
             0% { transform: translateY(0px) rotateY(0deg); }
-            50% { transform: translateY(-8px) rotateY(18deg); }
+            50% { transform: translateY(-8px) rotateY(15deg); }
             100% { transform: translateY(0px) rotateY(0deg); }
         }
 
@@ -156,16 +157,36 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: TELÓN CON ALIANZAS ROTANDO SUAVEMENTE -->
+    <!-- PANTALLA DE ENTRADA: TELÓN CON ALIANZAS METÁLICAS EN 3D -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <!-- Alianzas Entrelazadas con animación fluida de rotación y flotación -->
-            <svg class="interlocked-rings" viewBox="0 0 100 100" fill="none" stroke="#8c7355" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="38" cy="50" r="23" />
-                <circle cx="62" cy="50" r="23" />
+            <!-- Alianzas Realistas con Volumen Metálico (Gradientes SVG) -->
+            <svg class="realistic-rings" viewBox="0 0 120 120" fill="none">
+                <defs>
+                    <!-- Gradiente de Oro Real con Brillo Metálico -->
+                    <linearGradient id="goldGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#d4af37" />
+                        <stop offset="30%" stop-color="#fff2b2" />
+                        <stop offset="70%" stop-color="#aa820a" />
+                        <stop offset="100%" stop-color="#7a5c05" />
+                    </linearGradient>
+                    <linearGradient id="goldGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fff2b2" />
+                        <stop offset="40%" stop-color="#d4af37" />
+                        <stop offset="80%" stop-color="#99730c" />
+                        <stop offset="100%" stop-color="#5c4403" />
+                    </linearGradient>
+                </defs>
+                <!-- Anillo Izquierdo (Con grosor y doble trazo para textura 3D) -->
+                <circle cx="45" cy="60" r="32" stroke="url(#goldGradient1)" stroke-width="10" />
+                <circle cx="45" cy="60" r="32" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.6" stroke-dasharray="20 150" />
+
+                <!-- Anillo Derecho (Entrelazado) -->
+                <circle cx="75" cy="60" r="32" stroke="url(#goldGradient2)" stroke-width="10" />
+                <circle cx="75" cy="60" r="32" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.6" stroke-dasharray="20 150" />
             </svg>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
