@@ -14,9 +14,9 @@
             padding: 0;
             overflow-x: hidden;
             width: 100%;
-            background-color: #f3eee3;
+            background-color: #121614;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #2c3531;
+            color: #f4f1ea;
         }
 
         h1, h2, h3, .font-editorial {
@@ -52,135 +52,143 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* --- SOBRE EDITORIAL CON TRANSICIÓN ULTRA FLUIDA --- */
-        #envelope-container {
+        /* --- CONTENEDOR GENERAL DEL SOBRE (CENTRADO TIPO UNBOXING) --- */
+        #envelope-overlay {
             position: fixed;
             inset: 0;
-            z-index: 150;
-            background-color: #f3eee3;
-            transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 1.5s ease;
+            background: radial-gradient(circle at center, #1c2420 0%, #0d110f 100%);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
         }
-        #envelope-container.fade-out {
+        #envelope-overlay.fade-out {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* Solapa con curva de apertura híper suave (Easing de alta gama) */
-        #envelope-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 55%;
-            background: linear-gradient(180deg, #eae3d2 0%, #e1dccf 100%);
-            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-            transform-origin: top;
-            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
-            z-index: 160;
-        }
-        #envelope-flap.open {
-            transform: rotateX(-180deg) scale(1.02);
-            opacity: 0.8;
+        .envelope-box {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            height: 280px;
+            background: #f4f1ea; /* Papel marfil elegante */
+            border-radius: 8px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+            perspective: 1200px;
         }
 
         /* Cuerpo inferior del sobre */
-        #envelope-body {
+        .envelope-pocket {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50%;
-            background-color: #f3eee3;
-            z-index: 140;
-            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        #envelope-container.fade-out #envelope-body {
-            transform: translateY(100%);
+            height: 100%;
+            background: #f4f1ea;
+            border-radius: 8px;
+            z-index: 3;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
         }
 
-        /* Sello de Lacre con fundido delicado */
-        #wax-seal-btn {
+        /* Solapa superior del sobre (la que se abre como en el video)[cite: 4] */
+        .envelope-flap-top {
             position: absolute;
-            top: 48%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #fcfbfa 0%, #eae4d8 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 5;
+            border-bottom: 1px solid rgba(184, 155, 114, 0.2);
+        }
+        .envelope-box.open .envelope-flap-top {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Tarjeta interior (la que se desliza hacia arriba)[cite: 4] */
+        .invite-slide-card {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 240px;
+            background: #ffffff;
+            border: 1px solid #dcd6c8;
+            border-radius: 6px;
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3px;
+        }
+        .envelope-box.open .invite-slide-card {
+            transform: translateY(-135px) scale(1.03);
+            z-index: 4;
+        }
+
+        /* Sello de Lacre Dorado Brillante (Estilo Video) */
+        .golden-seal {
+            position: absolute;
+            top: 110px;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85px;
-            height: 85px;
-            background: radial-gradient(circle at 30% 30%, #a2463d 0%, #8c3b32 60%, #6b2b25 100%);
+            transform: translateX(-50%);
+            width: 75px;
+            height: 75px;
+            background: radial-gradient(circle at 35% 35%, #f3e0aa 0%, #d4af37 60%, #997a15 100%);
             border-radius: 50%;
-            z-index: 180;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(140, 59, 50, 0.4), 0 0 20px rgba(184, 155, 114, 0.3);
+            z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #5c241f;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, opacity 0.6s ease;
-            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.6);
+            border: 2px solid #b39228;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
         }
-        #wax-seal-btn:hover {
-            transform: translate(-50%, -50%) scale(1.06);
+        .golden-seal:hover {
+            transform: translateX(-50%) scale(1.08);
         }
-        #wax-seal-btn span {
+        .golden-seal span {
             font-family: 'Playfair Display', serif;
-            color: #fcfbfa;
-            font-size: 26px;
+            color: #4a3b0c;
+            font-size: 20px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.4);
             pointer-events: none;
         }
-        #wax-seal-btn.fade-seal {
+        .envelope-box.open .golden-seal {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
+            transform: translateX(-50%) scale(0.5);
             pointer-events: none;
         }
 
-        /* --- CONTENIDO PRINCIPAL DE LA INVITACIÓN --- */
+        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
         #main-content {
             opacity: 0;
-            transform: scale(0.98) translateY(15px);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease 0.8s, transform 1.2s ease 0.8s;
         }
         #main-content.revealed {
             opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
             transform: translateY(0);
         }
-
-        .agency-input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 18px 20px;
-            color: #f4f1ea;
-            width: 100%;
-            font-size: 15px;
-            transition: all 0.3s ease;
-        }
-        .agency-input:focus {
-            outline: none;
-            border-color: #b89b72;
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
-        }
-        .agency-input option { background-color: #1a221e; color: #f4f1ea; }
-        .moving-btn { position: relative; transition: all 0.15s ease; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- Lluvia de Hojas de Otoño Constante -->
+    <!-- Lluvia de Hojas de Otoño -->
     <div class="falling-leaves">
         <span class="leaf" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></span>
         <span class="leaf" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></span>
@@ -189,20 +197,32 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: SOBRE EDITORIAL SUAVE -->
-    <div id="envelope-container">
-        <div id="envelope-flap"></div>
-        <div id="envelope-body"></div>
-        <div id="wax-seal-btn" onclick="openSmoothEnvelope()">
-            <span>F&Y</span>
-        </div>
-        <div style="position: absolute; bottom: 15%; width: 100%; text-align: center; z-index: 170; pointer-events: none; transition: opacity 0.5s ease;" id="hint-text">
-            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #7a7368; font-weight: 600;">Toca el sello para abrir</p>
+    <!-- SOBRE TIPO UNBOXING (FASE 1) -->
+    <div id="envelope-overlay">
+        <div class="text-center w-full flex flex-col items-center">
+            <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello dorado para abrir</p>
+            
+            <div class="envelope-box" id="envelopeBox" onclick="openVideoEnvelope()">
+                <div class="envelope-pocket"></div>
+                <div class="envelope-flap-top"></div>
+                
+                <!-- Tarjeta interior que sale deslizándose -->
+                <div class="invite-slide-card">
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-[#b89b72] font-bold mb-2">Boda Exclusiva</span>
+                    <h2 class="font-editorial text-2xl text-[#121614] mb-1">Fati &amp; Yeri</h2>
+                    <p class="text-xs text-gray-500 italic font-serif">03.04.2027</p>
+                </div>
+
+                <!-- Sello Dorado -->
+                <div class="golden-seal">
+                    <span>F&Y</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- CONTENIDO PRINCIPAL DE LA WEB -->
-    <main id="main-content" class="w-full flex flex-col items-center justify-start bg-[#121614] text-[#f4f1ea] min-h-screen">
+    <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen">
         
         <!-- HERO SECTION -->
         <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
@@ -234,128 +254,28 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE BIENVENIDA -->
-        <section class="w-full py-24 px-6 text-center border-b border-white/10 bg-[#121614]">
-            <div class="max-w-2xl reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
-                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
-                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
-                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
-                </p>
-                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
-            </div>
-        </section>
-
-        <!-- UBICACIÓN (LA POSADA DE LEÓN) -->
-        <section class="w-full py-24 px-6 text-center bg-[#171e1a] border-b border-white/10">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
-                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
-                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
-                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
-                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
-                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
-                        Chusmear el Instagram 🌿
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- RSVP / FORMULARIO INTERACTIVO -->
-        <section class="w-full py-24 px-6 bg-[#171e1a]">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <div class="text-center mb-12">
-                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
-                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
-                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
-                </div>
-
-                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
-                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
-                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
-                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
-                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
-                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
-                        </select>
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
-                        <select name="transporte_compania" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
-                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
-                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
-                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
-                        </select>
-                    </div>
-
-                    <div class="pt-8 text-center">
-                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
-                        
-                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
-
-                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
-                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
-                                ¡Sí, ahí estaré! 🥂
-                            </button>
-
-                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
-                                No puedo ir 🍃
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="successMessage" class="hidden text-center py-16">
-                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
-                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
-                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#0e1210] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
-        Fati &amp; Yeri • 03.04.2027
-    </footer>
-
-    <!-- Script de Animación Ultra Suave -->
+    <!-- Script de Animación Unboxing -->
     <script>
-        function openSmoothEnvelope() {
-            const seal = document.getElementById('wax-seal-btn');
-            const flap = document.getElementById('envelope-flap');
-            const container = document.getElementById('envelope-container');
+        function openVideoEnvelope() {
+            const box = document.getElementById('envelopeBox');
+            const overlay = document.getElementById('envelope-overlay');
             const mainContent = document.getElementById('main-content');
-            const hintText = document.getElementById('hint-text');
 
-            // 1. Desvanece el texto y el sello con delicadeza
-            hintText.style.opacity = '0';
-            seal.classList.add('fade-seal');
+            // 1. Activa la clase que abre la solapa y desliza la tarjeta hacia arriba
+            box.classList.add('open');
 
-            // 2. Abre la solapa de forma fluida y elástica
+            // 2. Funde la pantalla del sobre hacia la web principal
             setTimeout(() => {
-                flap.classList.add('open');
-            }, 150);
-
-            // 3. Funde el sobre completo dando paso a la web con un zoom muy sutil
-            setTimeout(() => {
-                container.classList.add('fade-out');
+                overlay.classList.add('fade-out');
                 mainContent.classList.add('revealed');
-            }, 500);
+            }, 1100);
 
-            // 4. Limpia el DOM
+            // 3. Remueve el overlay del DOM
             setTimeout(() => {
-                container.remove();
-            }, 2000);
+                overlay.remove();
+            }, 2200);
         }
 
         // Cuenta Regresiva
@@ -371,35 +291,6 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Scroll Reveal Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
-
-        // Botón Escurridizo
-        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
-        function handleNoInteraction() {
-            intentoNo++;
-            if (intentoNo < 4) {
-                const x = Math.random() * 160 - 80;
-                const y = Math.random() * 100 - 50;
-                btnNo.style.transform = `translate(${x}px, ${y}px)`;
-            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
-        }
-
-        // Envío Formspree
-        const form = document.getElementById('weddingForm');
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            try {
-                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
-                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
-            } catch (err) {
-                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
-            }
-        });
     </script>
 </body>
 </html>
