@@ -14,7 +14,7 @@
             padding: 0;
             overflow-x: hidden;
             width: 100%;
-            background-color: #f3eee3; /* Tono lino / papel artesanal */
+            background-color: #f3eee3;
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #2c3531;
         }
@@ -52,13 +52,13 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* --- SOBRE EDITORIAL SUAVE --- */
+        /* --- SOBRE EDITORIAL CON TRANSICIÓN ULTRA FLUIDA --- */
         #envelope-container {
             position: fixed;
             inset: 0;
             z-index: 150;
             background-color: #f3eee3;
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
+            transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1), visibility 1.5s ease;
         }
         #envelope-container.fade-out {
             opacity: 0;
@@ -66,7 +66,7 @@
             pointer-events: none;
         }
 
-        /* Solapa con relieve y sombra suave */
+        /* Solapa con curva de apertura híper suave (Easing de alta gama) */
         #envelope-flap {
             position: absolute;
             top: 0;
@@ -76,12 +76,13 @@
             background: linear-gradient(180deg, #eae3d2 0%, #e1dccf 100%);
             clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
             transform-origin: top;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
             z-index: 160;
         }
         #envelope-flap.open {
-            transform: rotateX(-180deg);
+            transform: rotateX(-180deg) scale(1.02);
+            opacity: 0.8;
         }
 
         /* Cuerpo inferior del sobre */
@@ -93,9 +94,13 @@
             height: 50%;
             background-color: #f3eee3;
             z-index: 140;
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #envelope-container.fade-out #envelope-body {
+            transform: translateY(100%);
         }
 
-        /* Sello de Lacre con Brillo Sutil (Glow) */
+        /* Sello de Lacre con fundido delicado */
         #wax-seal-btn {
             position: absolute;
             top: 48%;
@@ -112,12 +117,11 @@
             align-items: center;
             justify-content: center;
             border: 2px solid #5c241f;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, opacity 0.6s ease;
             -webkit-tap-highlight-color: transparent;
         }
         #wax-seal-btn:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-            box-shadow: 0 15px 35px rgba(140, 59, 50, 0.6), 0 0 30px rgba(184, 155, 114, 0.5);
+            transform: translate(-50%, -50%) scale(1.06);
         }
         #wax-seal-btn span {
             font-family: 'Playfair Display', serif;
@@ -128,23 +132,22 @@
             pointer-events: none;
         }
         #wax-seal-btn.fade-seal {
-            transition: opacity 0.5s ease, transform 0.5s ease;
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
+            transform: translate(-50%, -50%) scale(0.9);
+            pointer-events: none;
         }
 
         /* --- CONTENIDO PRINCIPAL DE LA INVITACIÓN --- */
         #main-content {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease 0.4s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+            transform: scale(0.98) translateY(15px);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
         }
         #main-content.revealed {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1) translateY(0);
         }
 
-        /* Estilos generales editoriales */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -190,11 +193,10 @@
     <div id="envelope-container">
         <div id="envelope-flap"></div>
         <div id="envelope-body"></div>
-        <!-- Sello con brillo y animación delicada -->
         <div id="wax-seal-btn" onclick="openSmoothEnvelope()">
             <span>F&Y</span>
         </div>
-        <div style="position: absolute; bottom: 15%; width: 100%; text-align: center; z-index: 170; pointer-events: none;">
+        <div style="position: absolute; bottom: 15%; width: 100%; text-align: center; z-index: 170; pointer-events: none; transition: opacity 0.5s ease;" id="hint-text">
             <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #7a7368; font-weight: 600;">Toca el sello para abrir</p>
         </div>
     </div>
@@ -326,29 +328,31 @@
         Fati &amp; Yeri • 03.04.2027
     </footer>
 
-    <!-- Script de Animación Suave y Funcionalidades -->
+    <!-- Script de Animación Ultra Suave -->
     <script>
         function openSmoothEnvelope() {
             const seal = document.getElementById('wax-seal-btn');
             const flap = document.getElementById('envelope-flap');
             const container = document.getElementById('envelope-container');
             const mainContent = document.getElementById('main-content');
+            const hintText = document.getElementById('hint-text');
 
-            // 1. Desvanece el sello suavemente con un leve zoom
+            // 1. Desvanece el texto y el sello con delicadeza
+            hintText.style.opacity = '0';
             seal.classList.add('fade-seal');
 
-            // 2. Abre la solapa con una curva de animación fluida y elegante
+            // 2. Abre la solapa de forma fluida y elástica
             setTimeout(() => {
                 flap.classList.add('open');
-            }, 200);
+            }, 150);
 
-            // 3. Funde el fondo del sobre completo para revelar la web principal
+            // 3. Funde el sobre completo dando paso a la web con un zoom muy sutil
             setTimeout(() => {
                 container.classList.add('fade-out');
                 mainContent.classList.add('revealed');
-            }, 750);
+            }, 500);
 
-            // 4. Limpia el DOM del sobre después de la transición
+            // 4. Limpia el DOM
             setTimeout(() => {
                 container.remove();
             }, 2000);
