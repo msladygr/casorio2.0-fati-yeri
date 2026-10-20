@@ -11,9 +11,9 @@
     <style>
         body {
             margin: 0; padding: 0; overflow-x: hidden; width: 100%;
-            background-color: #f8f5ee; /* Fondo marfil / lino cálido y suave */
+            background-color: #f8f5ee;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #2c3531; /* Texto principal en tono oscuro suave (no negro puro) */
+            color: #2c3531;
         }
         h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
 
@@ -34,7 +34,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- TELÓN SUAVE CÁLIDO (BEIGE / MARFIL) --- */
+        /* --- TELÓN CÁLIDO (BEIGE / MARFIL) --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -49,7 +49,6 @@
             position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #f3eee3;
             z-index: 210;
-            /* Curva de aceleración súper suave y progresiva (Luxurious Easing) */
             transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
@@ -73,13 +72,27 @@
             transform: translateX(100%);
         }
 
-        /* Contenido del Telón (Textos y botón de apertura) */
+        /* Contenido Minimalista del Telón */
         .intro-content {
             position: relative; z-index: 220; text-align: center; padding: 0 20px;
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
         #intro-overlay.open .intro-content {
             opacity: 0; transform: scale(0.97); pointer-events: none;
+        }
+
+        /* Alianzas Entrelazadas con Movimiento de Rotación y Flotación Suave */
+        .interlocked-rings {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 28px auto;
+            animation: ringFloatAndRotate 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        @keyframes ringFloatAndRotate {
+            0% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-8px) rotateY(18deg); }
+            100% { transform: translateY(0px) rotateY(0deg); }
         }
 
         /* Botón Editorial Cálido */
@@ -96,7 +109,6 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            margin-top: 35px;
         }
         .editorial-btn:hover {
             border-color: #8c7355;
@@ -104,7 +116,7 @@
             transform: translateY(-2px);
         }
 
-        /* --- CONTENIDO PRINCIPAL DE LA WEB (OCULTO DETRÁS DEL TELÓN) --- */
+        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
         #main-content {
             opacity: 0; transform: translateY(15px);
             transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
@@ -144,17 +156,17 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: TELÓN CÁLIDO (OCULTA TODO HASTA ABRIR) -->
+    <!-- PANTALLA DE ENTRADA: TELÓN CON ALIANZAS ROTANDO SUAVEMENTE -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <span class="text-[10px] uppercase tracking-[0.4em] text-[#8c7355] block mb-4 font-semibold">Boda Exclusiva</span>
-            <h2 class="font-editorial text-5xl sm:text-7xl text-[#2c3531] mb-3 tracking-tight">
-                Fati <span class="text-[#8c7355] italic">&amp;</span> Yeri
-            </h2>
-            <p class="text-xs text-[#2c3531]/60 tracking-[0.3em] uppercase font-serif mb-2">03.04.2027</p>
+            <!-- Alianzas Entrelazadas con animación fluida de rotación y flotación -->
+            <svg class="interlocked-rings" viewBox="0 0 100 100" fill="none" stroke="#8c7355" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="38" cy="50" r="23" />
+                <circle cx="62" cy="50" r="23" />
+            </svg>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
                 Ingresar a la experiencia ✨
@@ -162,7 +174,7 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB (SE DESCUBRE TRAS EL TELÓN) -->
+    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
     <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen bg-[#f8f5ee]">
         
         <!-- HERO SECTION -->
@@ -214,7 +226,7 @@
                 <h3 class="text-4xl font-editorial text-[#2c3531] mb-6">¿Dónde va a ser el bardo?</h3>
                 <div class="bg-white/70 backdrop-blur-md p-8 rounded-3xl border border-[#2c3531]/10 shadow-md">
                     <p class="text-2xl font-editorial font-bold text-[#2c3531] mb-3">La Posada de León</p>
-                    <p class="text-sm text-[#2c3531]/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
+                    <p class="text-sm text-[#2c3531]/70 italic mb-8 leading-relaxed">"Un lugar hermoso, mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
                     <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-md transition tracking-[0.2em] uppercase">
                         Chusmear el Instagram 🌿
                     </a>
