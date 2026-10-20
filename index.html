@@ -54,7 +54,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- CORTINA EDITORIAL DE APERTURA (FASE 1) --- */
+        /* --- SOBRE REAL INTERACTIVO (FASE 1) --- */
         #intro-overlay {
             position: fixed;
             inset: 0;
@@ -63,7 +63,107 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: opacity 0.8s ease 0.5s, visibility 0.8s ease 0.5s;
+        }
+        #intro-overlay.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .envelope-wrapper {
+            width: 85%;
+            max-width: 380px;
+            height: 250px;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        /* Cuerpo del sobre */
+        .envelope {
+            position: absolute;
+            inset: 0;
+            background: #1a221e;
+            border: 1px solid rgba(184, 155, 114, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 2;
+        }
+
+        /* Solapa superior del sobre */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 125px;
+            background: #161c18;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 4;
+            border-bottom: 1px solid rgba(184, 155, 114, 0.2);
+        }
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        /* La tarjeta / invitación que sale del sobre */
+        .invite-card {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 210px;
+            background: #fcfbfa;
+            color: #121614;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 3;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+        }
+        .envelope-wrapper.open .invite-card {
+            transform: translateY(-130px) scale(1.05);
+            z-index: 5;
+        }
+
+        /* Sello de Lacre Fino */
+        .wax-seal {
+            position: absolute;
+            top: 95px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: #8c3b32;
+            border: 2px solid #5c241f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 6;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+        .envelope-wrapper:hover .wax-seal {
+            transform: translateX(-50%) scale(1.1);
+        }
+        .wax-seal span {
+            font-family: 'Playfair Display', serif;
+            color: #f4f1ea;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -78,20 +178,28 @@
         <span class="leaf" style="left: 90%; animation-duration: 11s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE APERTURA: PORTADA EDITORIAL (FASE 1) -->
+    <!-- PANTALLA DE APERTURA: SOBRE REAL INTERACTIVO (FASE 1) -->
     <div id="intro-overlay">
-        <div class="text-center px-6 max-w-xl">
-            <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 mb-6">
-                Invitación Digital Exclusiva
-            </span>
-            <h1 class="font-editorial text-7xl sm:text-9xl text-[#f4f1ea] mb-4 tracking-tight">
-                Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
-            </h1>
-            <p class="text-sm text-white/60 tracking-[0.3em] uppercase mb-12 font-serif">03.04.2027</p>
+        <div class="text-center px-4 w-full flex flex-col items-center">
+            <p class="text-[10px] uppercase tracking-[0.3em] text-[#c4b59d] mb-8 font-semibold animate-pulse">Toca el sello para abrir</p>
             
-            <button onclick="openEditorial()" class="bg-white text-[#121614] font-semibold text-xs px-8 py-4 rounded-full uppercase tracking-[0.2em] hover:bg-[#c4b59d] hover:text-white transition-all transform hover:scale-105 shadow-2xl cursor-pointer">
-                Abrir Invitación ✨
-            </button>
+            <!-- Contenedor del Sobre -->
+            <div class="envelope-wrapper" onclick="openRealEnvelope()">
+                <div class="envelope"></div>
+                <div class="envelope-flap"></div>
+                
+                <!-- Tarjeta oculta dentro del sobre -->
+                <div class="invite-card">
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-[#8c3b32] font-bold mb-1">Boda Fati &amp; Yeri</span>
+                    <p class="font-editorial text-2xl text-[#121614] mb-1">03.04.2027</p>
+                    <p class="text-[10px] text-gray-600 italic">Entrando a la experiencia...</p>
+                </div>
+
+                <!-- Sello de Lacre -->
+                <div class="wax-seal">
+                    <span>F&Y</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -142,13 +250,19 @@
 
     </main>
 
-    <!-- Script de la Fase 1 -->
+    <!-- Script de la Fase 1 (Sobre Real) -->
     <script>
-        // Transición de apertura de la portada estilo revista
-        function openEditorial() {
+        function openRealEnvelope() {
+            const wrapper = document.querySelector('.envelope-wrapper');
             const overlay = document.getElementById('intro-overlay');
-            overlay.style.transform = 'translateY(-100%)';
-            setTimeout(() => overlay.remove(), 900);
+
+            // Activa la animación CSS del sobre (abre solapa y desliza tarjeta)
+            wrapper.classList.add('open');
+
+            // Desvanece el fondo oscuro y libera la web principal
+            setTimeout(() => {
+                overlay.classList.add('fade-out');
+            }, 1000);
         }
 
         // Cuenta Regresiva
