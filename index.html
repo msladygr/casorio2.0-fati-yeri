@@ -14,6 +14,7 @@
             background-color: #121614;
             color: #f4f1ea;
             overflow-x: hidden;
+            margin: 0;
         }
         h1, h2, h3, .font-editorial {
             font-family: 'Playfair Display', serif;
@@ -53,7 +54,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- PORTADA EDITORIAL DE APERTURA (OPCIÓN 2) --- */
+        /* --- CORTINA EDITORIAL DE APERTURA (FASE 1) --- */
         #intro-overlay {
             position: fixed;
             inset: 0;
@@ -63,43 +64,6 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        /* Transiciones al hacer Scroll / Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .agency-input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 18px 20px;
-            color: #f4f1ea;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            width: 100%;
-        }
-        .agency-input:focus {
-            outline: none;
-            border-color: #b89b72;
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
-        }
-        .agency-input option {
-            background-color: #1a221e;
-            color: #f4f1ea;
-        }
-        .moving-btn {
-            position: relative;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
         }
     </style>
 </head>
@@ -114,7 +78,7 @@
         <span class="leaf" style="left: 90%; animation-duration: 11s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE APERTURA: PORTADA EDITORIAL (OPCIÓN 2) -->
+    <!-- PANTALLA DE APERTURA: PORTADA EDITORIAL (FASE 1) -->
     <div id="intro-overlay">
         <div class="text-center px-6 max-w-xl">
             <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 mb-6">
@@ -131,10 +95,10 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
+    <!-- CONTENIDO PRINCIPAL DE LA WEB (FASE 1 - HERO) -->
     <main class="w-full flex flex-col items-center justify-start">
         
-        <!-- 1. HERO SECTION -->
+        <!-- HERO SECTION -->
         <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
 
@@ -176,150 +140,9 @@
             </div>
         </section>
 
-        <!-- 2. SECCIÓN DE BIENVENIDA -->
-        <section class="w-full py-24 px-6 text-center border-b border-white/10">
-            <div class="max-w-2xl reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
-                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
-                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
-                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
-                </p>
-                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
-            </div>
-        </section>
-
-        <!-- 3. UBICACIÓN (LA POSADA DE LEÓN) -->
-        <section class="w-full py-24 px-6 text-center bg-[#171e1a] border-b border-white/10">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
-                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
-                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
-                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
-                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
-                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
-                        Chusmear el Instagram 🌿
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4. SPOILER / LO QUE TE ESPERA -->
-        <section class="w-full py-24 px-6 border-b border-white/10">
-            <div class="max-w-4xl w-full text-center reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Spoiler Alert 🍂</span>
-                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-16">Lo que te espera</h3>
-
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                        <span class="text-3xl block mb-4">🥂</span>
-                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Ceremonia</h4>
-                        <p class="text-xs text-white/70 leading-relaxed">Nada de iglesia: el cura nos prohibió la entrada por exceso de cumbia y porque la última vez casi bendecimos un fernet (¿pensabas que era porque somos lesbianas? na mi cielaaa). Todo en la quinta.</p>
-                    </div>
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                        <span class="text-3xl block mb-4">🍷</span>
-                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Morfi &amp; Barra</h4>
-                        <p class="text-xs text-white/70 leading-relaxed">Comida para reventar el pantalón, tragos a rolete y buena onda toda la tarde.</p>
-                    </div>
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
-                        <span class="text-3xl block mb-4">🪩</span>
-                        <h4 class="font-editorial font-bold text-[#e2d9c8] mb-3 text-xl">Fiesta</h4>
-                        <p class="text-xs text-white/70 leading-relaxed">Cumbia, trencitos imposibles y papelones asegurados hasta que nos saquen con carpa.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. RSVP / FORMULARIO INTERACTIVO -->
-        <section class="w-full py-24 px-6 bg-[#171e1a]">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <div class="text-center mb-12">
-                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
-                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
-                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
-                </div>
-
-                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
-                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
-                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
-                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
-                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
-                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
-                        </select>
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
-                        <select name="transporte_compania" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
-                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
-                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
-                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
-                        </select>
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">3. ¿Qué excusa argenta vas a usar por si te querés rajar temprano?</label>
-                        <select name="excusa_irse" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>Elegí una excusa antes de que me enoje 🙄</option>
-                            <option value="mal_piedra">Me dio el "mal de piedra" y la silla se me pegó al cuerpo.</option>
-                            <option value="perro">Tengo que ir a "darle de comer al perro" (a las 4 AM).</option>
-                            <option value="tios">Me puse a hablar de política con los tíos y me bajó la presión.</option>
-                        </select>
-                    </div>
-
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">4. Si armamos trencito y hay competencia de baile post-escabio:</label>
-                        <select name="estilo_baile" required class="agency-input cursor-pointer mb-6">
-                            <option value="" disabled selected>¿Cómo bailás?</option>
-                            <option value="helicoptero">El "helicóptero" sin coordinación y transpirando.</option>
-                            <option value="paso_prohibido">El meneaito con crujidos de rodillas incluidos.</option>
-                            <option value="mesa_dulce">Me quedo en la mesa dulce haciendo sociales para no papelonear.</option>
-                        </select>
-
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">Restricciones alimentarias:</label>
-                        <input type="text" name="restricciones" class="agency-input" placeholder="Vegano, celíaco, aire, o 'como absolutamente todo'">
-                    </div>
-
-                    <div class="pt-8 text-center">
-                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
-                        
-                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
-
-                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
-                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
-                                ¡Sí, ahí estaré! 🥂
-                            </button>
-
-                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
-                                No puedo ir 🍃
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="successMessage" class="hidden text-center py-16">
-                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
-                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
-                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-[#0e1210] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
-        Fati &amp; Yeri • 03.04.2027
-    </footer>
-
-    <!-- Script de Animaciones y Lógica -->
+    <!-- Script de la Fase 1 -->
     <script>
         // Transición de apertura de la portada estilo revista
         function openEditorial() {
@@ -327,15 +150,6 @@
             overlay.style.transform = 'translateY(-100%)';
             setTimeout(() => overlay.remove(), 900);
         }
-
-        // Animación Scroll Reveal
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
 
         // Cuenta Regresiva
         const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
@@ -350,33 +164,6 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // Botón Escurridizo
-        const btnNo = document.getElementById('btnNo');
-        let intentoNo = 0;
-        function handleNoInteraction() {
-            intentoNo++;
-            if (intentoNo < 4) {
-                btnNo.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 100 - 50}px)`;
-            } else {
-                alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨');
-                btnNo.remove();
-            }
-        }
-
-        // Envío AJAX Formspree
-        const form = document.getElementById('weddingForm');
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            try {
-                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
-                form.classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-            } catch (err) {
-                form.classList.add('hidden');
-                document.getElementById('successMessage').classList.remove('hidden');
-            }
-        });
     </script>
 </body>
 </html>
