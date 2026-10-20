@@ -32,7 +32,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- INTRO: CORTINA EDITORIAL DIVIDIDA (SPLIT SCREEN) --- */
+        /* --- INTRO: TELÓN / CORTINA LARGA CON LUCES Y SOMBRAS DE TELA --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -42,20 +42,27 @@
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitad Izquierda de la Cortina */
+        /* Mitad Izquierda del Telón (con sombra central que simula volumen de tela) */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
-            background-color: #0d110f;
-            background-image: radial-gradient(circle at center, rgba(25,33,29,0.5) 0%, #0d110f 100%);
-            border-top: 1px solid rgba(255,255,255,0.06);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background-color: #0a0e0c;
             z-index: 210;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
         }
-        .curtain-left { left: 0; border-right: 0.5px solid rgba(255,255,255,0.08); }
-        .curtain-right { right: 0; border-left: 0.5px solid rgba(255,255,255,0.08); }
+        
+        .curtain-left { 
+            left: 0; 
+            background-image: linear-gradient(90deg, rgba(13,17,15,0.9) 0%, rgba(22,29,25,1) 80%, rgba(35,46,40,1) 100%);
+            box-shadow: inset -30px 0 50px rgba(0,0,0,0.8); /* Sombra pesada de telón en el centro */
+        }
+        
+        .curtain-right { 
+            right: 0; 
+            background-image: linear-gradient(270deg, rgba(13,17,15,0.9) 0%, rgba(22,29,25,1) 80%, rgba(35,46,40,1) 100%);
+            box-shadow: inset 30px 0 50px rgba(0,0,0,0.8); /* Sombra pesada de telón en el centro */
+        }
 
-        /* Acción de apertura: se abren hacia los costados */
+        /* Apertura fluida del telón hacia los costados */
         #intro-overlay.open .curtain-left {
             transform: translateX(-100%);
         }
@@ -63,16 +70,16 @@
             transform: translateX(100%);
         }
 
-        /* Contenido Central de la Intro (Texto y Botón) */
+        /* Contenido del Telón (Se abre junto con él) */
         .intro-content {
             position: relative; z-index: 220; text-align: center; padding: 0 20px;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         #intro-overlay.open .intro-content {
-            opacity: 0; transform: scale(0.95); pointer-events: none;
+            opacity: 0; transform: scale(0.96); pointer-events: none;
         }
 
-        /* Botón Editorial Minimalista de Ingreso */
+        /* Botón de Ingreso Minimalista */
         .editorial-btn {
             display: inline-block;
             background: transparent;
@@ -94,7 +101,7 @@
             transform: translateY(-2px);
         }
 
-        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
+        /* --- CONTENIDO PRINCIPAL DE LA WEB (OCULTO DETRÁS DEL TELÓN) --- */
         #main-content {
             opacity: 0; transform: translateY(15px);
             transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
@@ -134,25 +141,25 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: CORTINA EDITORIAL SPLIT SCREEN -->
+    <!-- PANTALLA DE ENTRADA: TELÓN CON VOLUMEN Y SOMBRAS -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
             <span class="text-[10px] uppercase tracking-[0.4em] text-[#c4b59d] block mb-4 font-semibold">Boda Exclusiva</span>
-            <h1 class="font-editorial text-6xl sm:text-8xl text-[#f4f1ea] mb-3 tracking-tight">
+            <h2 class="font-editorial text-5xl sm:text-7xl text-[#f4f1ea] mb-3 tracking-tight">
                 Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
-            </h1>
+            </h2>
             <p class="text-xs text-white/50 tracking-[0.3em] uppercase font-serif mb-2">03.04.2027</p>
             
-            <button onclick="openEditorialCurtain()" class="editorial-btn">
+            <button onclick="openVelvetCurtain()" class="editorial-btn">
                 Ingresar a la experiencia ✨
             </button>
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
+    <!-- CONTENIDO PRINCIPAL DE LA WEB (DESCUBIERTO TRAS LA APERTURA) -->
     <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen">
         
         <!-- HERO SECTION -->
@@ -281,22 +288,22 @@
 
     <!-- Script de Animación e Interacciones -->
     <script>
-        function openEditorialCurtain() {
+        function openVelvetCurtain() {
             const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Activa la apertura de la cortina dividida
+            // 1. Abre el telón hacia los costados con profundidad de sombras
             overlay.classList.add('open');
 
-            // 2. Revela el contenido principal con fundido suave
+            // 2. Revela el Hero Section de la web principal
             setTimeout(() => {
                 mainContent.classList.add('revealed');
             }, 300);
 
-            // 3. Remueve el overlay por completo del DOM al terminar la transición
+            // 3. Limpia el DOM del telón
             setTimeout(() => {
                 overlay.classList.add('hidden-intro');
-            }, 1200);
+            }, 1300);
         }
 
         // Cuenta Regresiva
