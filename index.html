@@ -34,7 +34,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- TELÓN CÁLIDO EN TONOS MARFIL/LINO --- */
+        /* --- TELÓN CÁLIDO Y ELEGANTE (MARFIL / LINO) --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -44,7 +44,7 @@
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitades del telón con tono marfil elegante y sombras de tela */
+        /* Mitades del telón con tono marfil impecable y sombras suaves de tela */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #f3eee3;
@@ -55,13 +55,13 @@
         .curtain-left { 
             left: 0; 
             background-image: linear-gradient(90deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
-            box-shadow: inset -30px 0 50px rgba(0,0,0,0.06);
+            box-shadow: inset -30px 0 50px rgba(0,0,0,0.05);
         }
         
         .curtain-right { 
             right: 0; 
             background-image: linear-gradient(270deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
-            box-shadow: inset 30px 0 50px rgba(0,0,0,0.06);
+            box-shadow: inset 30px 0 50px rgba(0,0,0,0.05);
         }
 
         /* Apertura fluida hacia los costados */
@@ -72,7 +72,7 @@
             transform: translateX(100%);
         }
 
-        /* Contenido Minimalista del Telón */
+        /* Contenido Central del Telón */
         .intro-content {
             position: relative; z-index: 220; text-align: center; padding: 0 20px;
             transition: opacity 0.6s ease, transform 0.6s ease;
@@ -81,27 +81,28 @@
             opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Contenedor de Alianzas Reales con Animación de Giro */
+        /* Contenedor de Alianzas Reales con Animación 3D */
         .rings-container {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             margin: 0 auto 28px auto;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(184, 155, 114, 0.3);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(184, 155, 114, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
             animation: ringFloatAndRotate 6s ease-in-out infinite;
             transform-style: preserve-3d;
         }
 
         .real-rings-img {
-            width: 55px;
+            width: 65px;
             height: auto;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(140, 115, 85, 0.25));
         }
 
         @keyframes ringFloatAndRotate {
@@ -113,7 +114,7 @@
         /* Botón Editorial Cálido */
         .editorial-btn {
             display: inline-block;
-            background: rgba(248, 245, 238, 0.9);
+            background: rgba(248, 245, 238, 0.95);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(44, 53, 49, 0.2);
             color: #2c3531;
@@ -174,15 +175,15 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: TELÓN MARFIL Y ALIANZAS CLÁSICAS GIRANDO -->
+    <!-- PANTALLA DE ENTRADA: TELÓN CÁLIDO Y ALIANZAS REALES EN GIRO 3D -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <!-- Contenedor con Alianzas Reales Entrelazadas -->
+            <!-- Contenedor con Alianzas Reales Entrelazadas de Alta Definición -->
             <div class="rings-container">
-                <img src="https://cdn-icons-png.flaticon.com/512/2913/2913465.png" alt="Alianzas Entrelazadas" class="real-rings-img">
+                <img src="https://png.pngtree.com/png-vector/20240611/ourlarge/pngtree-intertwined-wedding-rings-png-image_12689647.png" alt="Alianzas Entrelazadas" class="real-rings-img">
             </div>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
