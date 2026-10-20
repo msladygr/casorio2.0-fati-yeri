@@ -11,58 +11,61 @@
     <style>
         body {
             margin: 0; padding: 0; overflow-x: hidden; width: 100%;
-            background-color: #0d110f; font-family: 'Plus Jakarta Sans', sans-serif; color: #f4f1ea;
+            background-color: #f8f5ee; /* Fondo marfil / lino cálido y suave */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #2c3531; /* Texto principal en tono oscuro suave (no negro puro) */
         }
         h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
 
-        /* --- HOJAS OTOÑALES FLOTANTES --- */
+        /* --- HOJAS OTOÑALES SUAVES --- */
         .falling-leaves {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 120; overflow: hidden;
         }
         .leaf {
             position: absolute; display: block; width: 18px; height: 18px;
-            background: #b89b72; opacity: 0.35; animation: fall linear infinite; border-radius: 0 70% 0 70%;
+            background: #b89b72; opacity: 0.25; animation: fall linear infinite; border-radius: 0 70% 0 70%;
         }
         .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
         .leaf:nth-child(3n) { background: #7a8670; }
         @keyframes fall {
-            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.5; }
+            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.4; }
             50% { transform: translateX(40px) rotate(180deg); }
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- INTRO: TELÓN / CORTINA LARGA CON LUCES Y SOMBRAS DE TELA --- */
+        /* --- TELÓN SUAVE CÁLIDO (BEIGE / MARFIL) --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
-            pointer-events: auto; transition: visibility 1.2s ease;
+            pointer-events: auto; transition: visibility 1.5s ease;
         }
         #intro-overlay.hidden-intro {
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitad Izquierda del Telón (con sombra central que simula volumen de tela) */
+        /* Mitades del telón con tonos marfil y sombras de tela delicadas */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
-            background-color: #0a0e0c;
+            background-color: #f3eee3;
             z-index: 210;
-            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
+            /* Curva de aceleración súper suave y progresiva (Luxurious Easing) */
+            transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         .curtain-left { 
             left: 0; 
-            background-image: linear-gradient(90deg, rgba(13,17,15,0.9) 0%, rgba(22,29,25,1) 80%, rgba(35,46,40,1) 100%);
-            box-shadow: inset -30px 0 50px rgba(0,0,0,0.8); /* Sombra pesada de telón en el centro */
+            background-image: linear-gradient(90deg, #ede7db 0%, #f3eee3 85%, #f8f5ee 100%);
+            box-shadow: inset -25px 0 40px rgba(0,0,0,0.04);
         }
         
         .curtain-right { 
             right: 0; 
-            background-image: linear-gradient(270deg, rgba(13,17,15,0.9) 0%, rgba(22,29,25,1) 80%, rgba(35,46,40,1) 100%);
-            box-shadow: inset 30px 0 50px rgba(0,0,0,0.8); /* Sombra pesada de telón en el centro */
+            background-image: linear-gradient(270deg, #ede7db 0%, #f3eee3 85%, #f8f5ee 100%);
+            box-shadow: inset 25px 0 40px rgba(0,0,0,0.04);
         }
 
-        /* Apertura fluida del telón hacia los costados */
+        /* Apertura fluida hacia los costados */
         #intro-overlay.open .curtain-left {
             transform: translateX(-100%);
         }
@@ -70,21 +73,21 @@
             transform: translateX(100%);
         }
 
-        /* Contenido del Telón (Se abre junto con él) */
+        /* Contenido del Telón (Textos y botón de apertura) */
         .intro-content {
             position: relative; z-index: 220; text-align: center; padding: 0 20px;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
         #intro-overlay.open .intro-content {
-            opacity: 0; transform: scale(0.96); pointer-events: none;
+            opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Botón de Ingreso Minimalista */
+        /* Botón Editorial Cálido */
         .editorial-btn {
             display: inline-block;
             background: transparent;
-            border: 1px solid rgba(244, 241, 234, 0.3);
-            color: #f4f1ea;
+            border: 1px solid rgba(44, 53, 49, 0.25);
+            color: #2c3531;
             padding: 16px 36px;
             border-radius: 50px;
             font-size: 11px;
@@ -96,15 +99,15 @@
             margin-top: 35px;
         }
         .editorial-btn:hover {
-            border-color: #c4b59d;
-            background: rgba(196, 181, 157, 0.08);
+            border-color: #8c7355;
+            background: rgba(140, 115, 85, 0.05);
             transform: translateY(-2px);
         }
 
         /* --- CONTENIDO PRINCIPAL DE LA WEB (OCULTO DETRÁS DEL TELÓN) --- */
         #main-content {
             opacity: 0; transform: translateY(15px);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+            transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
         }
         #main-content.revealed {
             opacity: 1; transform: translateY(0);
@@ -117,16 +120,16 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .agency-input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px; padding: 18px 20px; color: #f4f1ea; width: 100%; font-size: 15px;
+            background: rgba(44, 53, 49, 0.03);
+            border: 1px solid rgba(44, 53, 49, 0.12);
+            border-radius: 16px; padding: 18px 20px; color: #2c3531; width: 100%; font-size: 15px;
             transition: all 0.3s ease;
         }
         .agency-input:focus {
-            outline: none; border-color: #b89b72; background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
+            outline: none; border-color: #8c7355; background: rgba(44, 53, 49, 0.06);
+            box-shadow: 0 0 0 4px rgba(140, 115, 85, 0.1);
         }
-        .agency-input option { background-color: #1a221e; color: #f4f1ea; }
+        .agency-input option { background-color: #f8f5ee; color: #2c3531; }
         .moving-btn { position: relative; transition: all 0.15s ease; cursor: pointer; }
     </style>
 </head>
@@ -141,17 +144,17 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: TELÓN CON VOLUMEN Y SOMBRAS -->
+    <!-- PANTALLA DE ENTRADA: TELÓN CÁLIDO (OCULTA TODO HASTA ABRIR) -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <span class="text-[10px] uppercase tracking-[0.4em] text-[#c4b59d] block mb-4 font-semibold">Boda Exclusiva</span>
-            <h2 class="font-editorial text-5xl sm:text-7xl text-[#f4f1ea] mb-3 tracking-tight">
-                Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
+            <span class="text-[10px] uppercase tracking-[0.4em] text-[#8c7355] block mb-4 font-semibold">Boda Exclusiva</span>
+            <h2 class="font-editorial text-5xl sm:text-7xl text-[#2c3531] mb-3 tracking-tight">
+                Fati <span class="text-[#8c7355] italic">&amp;</span> Yeri
             </h2>
-            <p class="text-xs text-white/50 tracking-[0.3em] uppercase font-serif mb-2">03.04.2027</p>
+            <p class="text-xs text-[#2c3531]/60 tracking-[0.3em] uppercase font-serif mb-2">03.04.2027</p>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
                 Ingresar a la experiencia ✨
@@ -159,60 +162,60 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB (DESCUBIERTO TRAS LA APERTURA) -->
-    <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen">
+    <!-- CONTENIDO PRINCIPAL DE LA WEB (SE DESCUBRE TRAS EL TELÓN) -->
+    <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen bg-[#f8f5ee]">
         
         <!-- HERO SECTION -->
-        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(13,17,15,1)_100%)] pointer-events-none"></div>
+        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-[#2c3531]/10">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(235,225,210,0.5)_0%,rgba(248,245,238,1)_100%)] pointer-events-none"></div>
 
             <div class="relative z-10 pt-8">
-                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">
+                <span class="inline-block bg-[#2c3531]/5 text-[#8c7355] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-[#2c3531]/10 backdrop-blur-md">
                     03.04.2027 • Boda Editorial
                 </span>
             </div>
 
             <div class="relative z-10 my-auto py-12">
-                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
-                    Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
+                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#2c3531] drop-shadow-sm">
+                    Fati <span class="text-[#8c7355] italic">&amp;</span> Yeri
                 </h1>
-                <p class="text-lg sm:text-2xl text-white/70 italic max-w-xl mx-auto font-light tracking-wide">
+                <p class="text-lg sm:text-2xl text-[#2c3531]/70 italic max-w-xl mx-auto font-light tracking-wide">
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
 
             <!-- Cuenta Regresiva -->
             <div class="relative z-10 w-full max-w-md mx-auto pb-6">
-                <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
-                    <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
-                    <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span></div>
-                    <div><span id="minutes" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Min</span></div>
-                    <div><span id="seconds" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Seg</span></div>
+                <div class="grid grid-cols-4 gap-3 bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-[#2c3531]/10 text-center shadow-lg">
+                    <div><span id="days" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Días</span></div>
+                    <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Horas</span></div>
+                    <div><span id="minutes" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Min</span></div>
+                    <div><span id="seconds" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Seg</span></div>
                 </div>
             </div>
         </section>
 
         <!-- SECCIÓN DE BIENVENIDA -->
-        <section class="w-full py-24 px-6 text-center border-b border-white/10 bg-[#0d110f]">
+        <section class="w-full py-24 px-6 text-center border-b border-[#2c3531]/10 bg-[#f8f5ee]">
             <div class="max-w-2xl reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
-                <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
-                <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#8c7355] block mb-4 font-semibold">Aviso Parroquial</span>
+                <h2 class="text-4xl sm:text-6xl font-editorial text-[#2c3531] mb-8">Che, nos casamos</h2>
+                <p class="text-[#2c3531]/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
                     "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
                 </p>
-                <div class="w-16 h-0.5 bg-[#c4b59d] mx-auto mt-12"></div>
+                <div class="w-16 h-0.5 bg-[#8c7355] mx-auto mt-12"></div>
             </div>
         </section>
 
         <!-- UBICACIÓN (LA POSADA DE LEÓN) -->
-        <section class="w-full py-24 px-6 text-center bg-[#131916] border-b border-white/10">
+        <section class="w-full py-24 px-6 text-center bg-[#f0eae1] border-b border-[#2c3531]/10">
             <div class="max-w-xl w-full reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
-                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
-                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
-                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
-                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
-                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#8c7355] font-bold block mb-3">Coordenadas del Delito 📍</span>
+                <h3 class="text-4xl font-editorial text-[#2c3531] mb-6">¿Dónde va a ser el bardo?</h3>
+                <div class="bg-white/70 backdrop-blur-md p-8 rounded-3xl border border-[#2c3531]/10 shadow-md">
+                    <p class="text-2xl font-editorial font-bold text-[#2c3531] mb-3">La Posada de León</p>
+                    <p class="text-sm text-[#2c3531]/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
+                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-md transition tracking-[0.2em] uppercase">
                         Chusmear el Instagram 🌿
                     </a>
                 </div>
@@ -220,22 +223,22 @@
         </section>
 
         <!-- RSVP / FORMULARIO INTERACTIVO -->
-        <section class="w-full py-24 px-6 bg-[#131916]">
+        <section class="w-full py-24 px-6 bg-[#f0eae1]">
             <div class="max-w-xl w-full reveal mx-auto">
                 <div class="text-center mb-12">
                     <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
-                    <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
-                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
+                    <h3 class="text-4xl font-editorial text-[#2c3531] mb-3">Confirmación de Asistencia</h3>
+                    <p class="text-sm text-[#2c3531]/60">Completá tus datos para asegurar tu lugar en el evento.</p>
                 </div>
 
                 <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
+                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
+                        <label class="block text-sm font-bold text-[#2c3531] mb-2">¿Quién chota sos?</label>
                         <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
+                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
+                        <label class="block text-sm font-bold text-[#2c3531] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
                         <select name="manda_matrimonio" required class="agency-input cursor-pointer">
                             <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
                             <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
@@ -244,8 +247,8 @@
                         </select>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
-                        <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
+                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
+                        <label class="block text-sm font-bold text-[#2c3531] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
                         <select name="transporte_compania" required class="agency-input cursor-pointer">
                             <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
                             <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
@@ -255,16 +258,16 @@
                     </div>
 
                     <div class="pt-8 text-center">
-                        <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
+                        <p class="text-sm font-editorial font-bold text-[#2c3531] mb-6">¿Te esperamos o qué?</p>
                         
                         <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
 
                         <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
-                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
+                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-md transition transform hover:scale-105 tracking-wide">
                                 ¡Sí, ahí estaré! 🥂
                             </button>
 
-                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
+                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-md tracking-wide">
                                 No puedo ir 🍃
                             </button>
                         </div>
@@ -273,8 +276,8 @@
 
                 <div id="successMessage" class="hidden text-center py-16">
                     <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
-                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
-                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
+                    <h3 class="text-3xl font-editorial text-[#2c3531] mb-2">¡Datos guardados con éxito!</h3>
+                    <p class="text-[#2c3531]/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
                 </div>
             </div>
         </section>
@@ -282,7 +285,7 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0a0e0c] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
+    <footer class="bg-[#e8dfce] text-[#2c3531]/60 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-[#2c3531]/10">
         Fati &amp; Yeri • 03.04.2027
     </footer>
 
@@ -292,18 +295,18 @@
             const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Abre el telón hacia los costados con profundidad de sombras
+            // 1. Abre el telón cálido suavemente hacia los costados
             overlay.classList.add('open');
 
-            // 2. Revela el Hero Section de la web principal
+            // 2. Revela el contenido principal por detrás
             setTimeout(() => {
                 mainContent.classList.add('revealed');
             }, 300);
 
-            // 3. Limpia el DOM del telón
+            // 3. Remueve el telón del DOM al terminar la transición
             setTimeout(() => {
                 overlay.classList.add('hidden-intro');
-            }, 1300);
+            }, 1800);
         }
 
         // Cuenta Regresiva
