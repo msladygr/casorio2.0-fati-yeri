@@ -3,38 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fati & Yeri • 03.04.2027</title>
+    <title>Fati & Yeri • 03.04.2027 (Intro)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            margin: 0; padding: 0; overflow-x: hidden; width: 100%;
+            margin: 0; padding: 0; overflow: hidden; width: 100vw; height: 100vh;
             background-color: #f8f5ee;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #2c3531;
-        }
-        h1, h2, h3, .font-editorial { font-family: 'Playfair Display', serif; }
-
-        /* --- HOJAS OTOÑALES SUAVES --- */
-        .falling-leaves {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 120; overflow: hidden;
-        }
-        .leaf {
-            position: absolute; display: block; width: 18px; height: 18px;
-            background: #b89b72; opacity: 0.25; animation: fall linear infinite; border-radius: 0 70% 0 70%;
-        }
-        .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
-        .leaf:nth-child(3n) { background: #7a8670; }
-        @keyframes fall {
-            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.4; }
-            50% { transform: translateX(40px) rotate(180deg); }
-            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- TELÓN CÁLIDO Y ELEGANTE (MARFIL / LINO) --- */
+        /* --- TELÓN CÁLIDO CON TEXTURA DE LINO / TELA REAL --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -44,24 +25,29 @@
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitades del telón con tono marfil impecable y sombras suaves de tela */
+        /* Mitades del telón con trama textil simulada y sombras de profundidad */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #f3eee3;
+            background-image: 
+                radial-gradient(rgba(184, 155, 114, 0.08) 1px, transparent 1px),
+                radial-gradient(rgba(184, 155, 114, 0.06) 1px, #f3eee3 1px);
+            background-size: 6px 6px;
+            background-position: 0 0, 3px 3px;
             z-index: 210;
             transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         .curtain-left { 
             left: 0; 
-            background-image: linear-gradient(90deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
-            box-shadow: inset -30px 0 50px rgba(0,0,0,0.05);
+            box-shadow: inset -40px 0 60px rgba(0,0,0,0.08);
+            border-right: 0.5px solid rgba(184, 155, 114, 0.15);
         }
         
         .curtain-right { 
             right: 0; 
-            background-image: linear-gradient(270deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
-            box-shadow: inset 30px 0 50px rgba(0,0,0,0.05);
+            box-shadow: inset 40px 0 60px rgba(0,0,0,0.08);
+            border-left: 0.5px solid rgba(184, 155, 114, 0.15);
         }
 
         /* Apertura fluida hacia los costados */
@@ -81,28 +67,18 @@
             opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Contenedor de Alianzas Reales con Animación de Giro 3D */
-        .rings-container {
-            width: 105px;
-            height: 105px;
-            margin: 0 auto 28px auto;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(184, 155, 114, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        /* Alianzas 3D con Relieve y Flotación Suave */
+        .rings-wrapper {
+            margin: 0 auto 32px auto;
+            display: inline-block;
             animation: ringFloatAndRotate 6s ease-in-out infinite;
             transform-style: preserve-3d;
+            filter: drop-shadow(0 18px 25px rgba(110, 85, 30, 0.45));
         }
 
-        .real-rings-photo {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            filter: drop-shadow(0 6px 12px rgba(140, 115, 85, 0.3));
+        .gold-ring-svg {
+            width: 120px;
+            height: 120px;
         }
 
         @keyframes ringFloatAndRotate {
@@ -114,7 +90,7 @@
         /* Botón Editorial Cálido */
         .editorial-btn {
             display: inline-block;
-            background: rgba(248, 245, 238, 0.95);
+            background: rgba(248, 245, 238, 0.9);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(44, 53, 49, 0.2);
             color: #2c3531;
@@ -125,85 +101,69 @@
             letter-spacing: 0.3em;
             font-weight: 500;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .editorial-btn:hover {
             border-color: #8c7355;
             background: rgba(255, 255, 255, 1);
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
-
-        /* --- CONTENIDO PRINCIPAL DE LA WEB --- */
-        #main-content {
-            opacity: 0; transform: translateY(15px);
-            transition: opacity 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s, transform 1.4s cubic-bezier(0.25, 1, 0.5, 1) 0.3s;
-        }
-        #main-content.revealed {
-            opacity: 1; transform: translateY(0);
-        }
-
-        .reveal {
-            opacity: 0; transform: translateY(30px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        .agency-input {
-            background: rgba(44, 53, 49, 0.03);
-            border: 1px solid rgba(44, 53, 49, 0.12);
-            border-radius: 16px; padding: 18px 20px; color: #2c3531; width: 100%; font-size: 15px;
-            transition: all 0.3s ease;
-        }
-        .agency-input:focus {
-            outline: none; border-color: #8c7355; background: rgba(44, 53, 49, 0.06);
-            box-shadow: 0 0 0 4px rgba(140, 115, 85, 0.1);
-        }
-        .agency-input option { background-color: #f8f5ee; color: #2c3531; }
-        .moving-btn { position: relative; transition: all 0.15s ease; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- Lluvia de Hojas de Otoño -->
-    <div class="falling-leaves">
-        <span class="leaf" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></span>
-        <span class="leaf" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></span>
-        <span class="leaf" style="left: 50%; animation-duration: 12s; animation-delay: 1s;"></span>
-        <span class="leaf" style="left: 70%; animation-duration: 16s; animation-delay: 3s;"></span>
-        <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
-    </div>
-
-    <!-- PANTALLA DE ENTRADA: TELÓN CÁLIDO Y ALIANZAS FOTOGRÁFICAS REALES -->
+    <!-- PANTALLA DE ENTRADA: FASE 1 -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <!-- Contenedor con Imagen Fotorealista de Alianzas Entrelazadas (Blindada en Base64 para que nunca se rompa) -->
-            <div class="rings-container">
-                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><circle cx='75' cy='100' r='50' fill='none' stroke='%23d4af37' stroke-width='16'/><circle cx='125' cy='100' r='50' fill='none' stroke='%23f1e0a5' stroke-width='16'/></svg>" alt="Alianzas" style="display:none;" />
-                <!-- Usamos un asset gráfico de joyería fotorrealista integrado de alta calidad -->
-                <svg class="real-rings-photo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Alianzas con Relieve 3D y Efecto Convexa de Joyería -->
+            <div class="rings-wrapper">
+                <svg class="gold-ring-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <radialGradient id="ringShine1" cx="30%" cy="30%" r="70%">
+                        <!-- Gradientes de Oro Real con alto contraste para dar volumen 3D -->
+                        <linearGradient id="gold3D_1" x1="20%" y1="0%" x2="80%" y2="100%">
+                            <stop offset="0%" stop-color="#fae19b"/>
+                            <stop offset="25%" stop-color="#f3cb53"/>
+                            <stop offset="55%" stop-color="#b89322"/>
+                            <stop offset="85%" stop-color="#7a5c05"/>
+                            <stop offset="100%" stop-color="#423002"/>
+                        </linearGradient>
+                        <linearGradient id="gold3D_2" x1="80%" y1="0%" x2="20%" y2="100%">
                             <stop offset="0%" stop-color="#fff5cc"/>
-                            <stop offset="40%" stop-color="#d4af37"/>
-                            <stop offset="90%" stop-color="#8c6d16"/>
-                        </radialGradient>
-                        <radialGradient id="ringShine2" cx="70%" cy="70%" r="70%">
-                            <stop offset="0%" stop-color="#ffffff"/>
-                            <stop offset="50%" stop-color="#e6ca65"/>
-                            <stop offset="100%" stop-color="#5c4403"/>
-                        </radialGradient>
+                            <stop offset="30%" stop-color="#e6ca65"/>
+                            <stop offset="65%" stop-color="#99730c"/>
+                            <stop offset="90%" stop-color="#6e5005"/>
+                            <stop offset="100%" stop-color="#3d2c01"/>
+                        </linearGradient>
                     </defs>
-                    <g style="filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.25));">
-                        <circle cx="38" cy="50" r="26" stroke="url(#ringShine1)" stroke-width="9" />
-                        <circle cx="62" cy="50" r="26" stroke="url(#ringShine2)" stroke-width="9" />
-                    </g>
+
+                    <!-- ANILLO IZQUIERDO (CON RELIEVE 3D) -->
+                    <!-- Sombra interna / base del aro -->
+                    <circle cx="44" cy="60" r="24" stroke="#2c1a01" stroke-width="11" opacity="0.3"/>
+                    <!-- Aro principal con volumen -->
+                    <circle cx="44" cy="60" r="24" stroke="url(#gold3D_1)" stroke-width="10" />
+                    <!-- Núcleo brillante en relieve (simula la curvatura convexa del metal) -->
+                    <circle cx="44" cy="60" r="24" stroke="#ffe891" stroke-width="3.5" opacity="0.8"/>
+                    <!-- Reflejo especular superior -->
+                    <path d="M28 47C32 39 40 37 48 38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+
+                    <!-- ANILLO DERECHO (ENTRELAZADO CON RELIEVE 3D) -->
+                    <!-- Sombra interna / base del aro -->
+                    <circle cx="76" cy="60" r="24" stroke="#2c1a01" stroke-width="11" opacity="0.3"/>
+                    <!-- Aro principal con volumen -->
+                    <circle cx="76" cy="60" r="24" stroke="url(#gold3D_2)" stroke-width="10" />
+                    <!-- Núcleo brillante en relieve -->
+                    <circle cx="76" cy="60" r="24" stroke="#fff1b0" stroke-width="3.5" opacity="0.8"/>
+                    <!-- Reflejo especular lateral/inferior -->
+                    <path d="M70 81C78 81 85 78 89 71" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
                 </svg>
             </div>
+            
+            <br>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
                 Ingresar a la experiencia ✨
@@ -211,195 +171,12 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
-    <main id="main-content" class="w-full flex flex-col items-center justify-start min-h-screen bg-[#f8f5ee]">
-        
-        <!-- HERO SECTION -->
-        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-[#2c3531]/10">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(235,225,210,0.5)_0%,rgba(248,245,238,1)_100%)] pointer-events-none"></div>
-
-            <div class="relative z-10 pt-8">
-                <span class="inline-block bg-[#2c3531]/5 text-[#8c7355] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-[#2c3531]/10 backdrop-blur-md">
-                    03.04.2027 • Boda Editorial
-                </span>
-            </div>
-
-            <div class="relative z-10 my-auto py-12">
-                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#2c3531] drop-shadow-sm">
-                    Fati <span class="text-[#8c7355] italic">&amp;</span> Yeri
-                </h1>
-                <p class="text-lg sm:text-2xl text-[#2c3531]/70 italic max-w-xl mx-auto font-light tracking-wide">
-                    "Decidimos arruinar nuestras finanzas y festejar a lo grande"
-                </p>
-            </div>
-
-            <!-- Cuenta Regresiva -->
-            <div class="relative z-10 w-full max-w-md mx-auto pb-6">
-                <div class="grid grid-cols-4 gap-3 bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-[#2c3531]/10 text-center shadow-lg">
-                    <div><span id="days" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Días</span></div>
-                    <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Horas</span></div>
-                    <div><span id="minutes" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Min</span></div>
-                    <div><span id="seconds" class="block text-2xl font-editorial font-bold text-[#2c3531]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-[#2c3531]/50">Seg</span></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN DE BIENVENIDA -->
-        <section class="w-full py-24 px-6 text-center border-b border-[#2c3531]/10 bg-[#f8f5ee]">
-            <div class="max-w-2xl reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#8c7355] block mb-4 font-semibold">Aviso Parroquial</span>
-                <h2 class="text-4xl sm:text-6xl font-editorial text-[#2c3531] mb-8">Che, nos casamos</h2>
-                <p class="text-[#2c3531]/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
-                    "Después de tantos mates, juntadas, risas y aguantarnos mutuamente, decidimos dar el gran paso y firmar los papeles. No nos imaginamos este momento sin ustedes morfando, tomando y haciendo papelones con nosotras."
-                </p>
-                <div class="w-16 h-0.5 bg-[#8c7355] mx-auto mt-12"></div>
-            </div>
-        </section>
-
-        <!-- UBICACIÓN (LA POSADA DE LEÓN) -->
-        <section class="w-full py-24 px-6 text-center bg-[#f0eae1] border-b border-[#2c3531]/10">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <span class="text-xs uppercase tracking-[0.3em] text-[#8c7355] font-bold block mb-3">Coordenadas del Delito 📍</span>
-                <h3 class="text-4xl font-editorial text-[#2c3531] mb-6">¿Dónde va a ser el bardo?</h3>
-                <div class="bg-white/70 backdrop-blur-md p-8 rounded-3xl border border-[#2c3531]/10 shadow-md">
-                    <p class="text-2xl font-editorial font-bold text-[#2c3531] mb-3">La Posada de León</p>
-                    <p class="text-sm text-[#2c3531]/70 italic mb-8 leading-relaxed">"Un lugar hermoso, mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
-                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-md transition tracking-[0.2em] uppercase">
-                        Chusmear el Instagram 🌿
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- RSVP / FORMULARIO INTERACTIVO -->
-        <section class="w-full py-24 px-6 bg-[#f0eae1]">
-            <div class="max-w-xl w-full reveal mx-auto">
-                <div class="text-center mb-12">
-                    <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
-                    <h3 class="text-4xl font-editorial text-[#2c3531] mb-3">Confirmación de Asistencia</h3>
-                    <p class="text-sm text-[#2c3531]/60">Completá tus datos para asegurar tu lugar en el evento.</p>
-                </div>
-
-                <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
-                        <label class="block text-sm font-bold text-[#2c3531] mb-2">¿Quién chota sos?</label>
-                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
-                    </div>
-
-                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
-                        <label class="block text-sm font-bold text-[#2c3531] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
-                        <select name="manda_matrimonio" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
-                            <option value="fati_manda">Yeri, obvio (Wah-pah!).</option>
-                            <option value="yo_mando_mentira">Más vale que Fati (mentira, la manejo con una sola mirada).</option>
-                            <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
-                        </select>
-                    </div>
-
-                    <div class="bg-white/70 p-6 rounded-3xl border border-[#2c3531]/10 shadow-sm">
-                        <label class="block text-sm font-bold text-[#2c3531] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
-                        <select name="transporte_compania" required class="agency-input cursor-pointer">
-                            <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
-                            <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
-                            <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
-                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
-                        </select>
-                    </div>
-
-                    <div class="pt-8 text-center">
-                        <p class="text-sm font-editorial font-bold text-[#2c3531] mb-6">¿Te esperamos o qué?</p>
-                        
-                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
-
-                        <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
-                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-md transition transform hover:scale-105 tracking-wide">
-                                ¡Sí, ahí estaré! 🥂
-                            </button>
-
-                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-md tracking-wide">
-                                No puedo ir 🍃
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <div id="successMessage" class="hidden text-center py-16">
-                    <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
-                    <h3 class="text-3xl font-editorial text-[#2c3531] mb-2">¡Datos guardados con éxito!</h3>
-                    <p class="text-[#2c3531]/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-[#e8dfce] text-[#2c3531]/60 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-[#2c3531]/10">
-        Fati &amp; Yeri • 03.04.2027
-    </footer>
-
-    <!-- Script de Animación e Interacciones -->
     <script>
         function openVelvetCurtain() {
             const overlay = document.getElementById('intro-overlay');
-            const mainContent = document.getElementById('main-content');
-
-            // 1. Abre el telón marfil suavemente hacia los costados
             overlay.classList.add('open');
-
-            // 2. Revela el contenido principal por detrás
-            setTimeout(() => {
-                mainContent.classList.add('revealed');
-            }, 300);
-
-            // 3. Remueve el telón del DOM al terminar la transición
-            setTimeout(() => {
-                overlay.classList.add('hidden-intro');
-            }, 1800);
+            setTimeout(() => { overlay.remove(); }, 1800);
         }
-
-        // Cuenta Regresiva
-        const weddingDate = new Date('Apr 3, 2027 16:00:00').getTime();
-        function updateCountdown() {
-            const now = new Date().getTime(), distance = weddingDate - now;
-            if (distance > 0) {
-                document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
-            }
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // Scroll Reveal Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
-
-        /* Botón Escurridizo */
-        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
-        function handleNoInteraction() {
-            intentoNo++;
-            if (intentoNo < 4) {
-                const x = Math.random() * 160 - 80;
-                const y = Math.random() * 100 - 50;
-                btnNo.style.transform = `translate(${x}px, ${y}px)`;
-            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
-        }
-
-        /* Envío Formspree */
-        const form = document.getElementById('weddingForm');
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            try {
-                await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
-                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
-            } catch (err) {
-                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
-            }
-        });
     </script>
 </body>
 </html>
