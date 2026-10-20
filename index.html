@@ -32,124 +32,94 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* --- CONTENEDOR GENERAL DEL SOBRE --- */
+        /* --- CONTENEDOR GENERAL SOBRE RÚSTICO --- */
         #envelope-overlay {
             position: fixed; inset: 0;
-            background: radial-gradient(circle at center, #1c2420 0%, #0a0e0c 100%);
+            background: radial-gradient(circle at center, #1e2621 0%, #0b0f0d 100%);
             z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
         }
         #envelope-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        /* Sobre artesanal con perspectiva 3D */
-        .luxury-envelope {
+        .rustic-envelope-wrapper {
             position: relative;
             width: 360px;
-            height: 245px;
-            background: linear-gradient(135deg, #fbf9f5 0%, #f0ebd9 100%);
+            height: 250px;
+            background: #fdfbf7; /* Fondo tipo encaje blanco */
             border-radius: 6px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.7), 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.7);
             cursor: pointer;
             perspective: 1400px;
+            overflow: hidden;
         }
 
-        /* Simulación de textura de encaje láser en los bordes de la solapa[cite: 3] */
-        .lace-pattern {
-            background-image: radial-gradient(circle, #e2dac9 1px, transparent 1px);
-            background-size: 8px 8px;
-            opacity: 0.6;
+        /* Simulación de textura de encaje fino en el fondo del sobre */
+        .lace-bg {
+            position: absolute; inset: 0;
+            background-image: radial-gradient(#e5ddd0 1px, transparent 1px), radial-gradient(#e5ddd0 1px, #fdfbf7 1px);
+            background-size: 16px 16px;
+            background-position: 0 0, 8px 8px;
+            opacity: 0.7;
         }
 
-        /* Tarjeta interior (opalina con bordes dorados sutiles) */
-        .inner-card {
+        /* Solapa de Papel Artesanal Bordó con borde rasgado simulado */
+        .burgundy-flap {
             position: absolute;
-            bottom: 12px;
-            left: 5%;
-            width: 90%;
-            height: 210px;
-            background: #ffffff;
-            border: 1px solid #d4c5a9;
-            border-radius: 4px;
-            padding: 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-        }
-        .luxury-envelope.open .inner-card {
-            transform: translateY(-130px) scale(1.03);
-            z-index: 10;
-        }
-
-        /* Bolsillo frontal del sobre */
-        .envelope-pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #f5f0e1 0%, #e6dcc5 100%);
-            border-radius: 6px;
-            z-index: 5;
-            box-shadow: inset 0 -8px 20px rgba(0,0,0,0.06);
-            pointer-events: none;
-        }
-
-        /* Solapa superior con diseño de encaje y apertura 3D[cite: 3, 4] */
-        .envelope-top-flap {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 125px;
-            background: linear-gradient(135deg, #ffffff 0%, #eee6d2 100%);
+            top: 0; left: 0; width: 100%; height: 140px;
+            background: #5c1d24; /* Tono borgoña / vino profundo */
+            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 0);
+            background-size: 4px 4px; /* Simula la textura fibrosa del papel artesanal */
             clip-path: polygon(0 0, 50% 100%, 100% 0);
             transform-origin: top;
             transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
             z-index: 15;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            border-bottom: 1px solid rgba(184, 155, 114, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-bottom: 2px dashed rgba(212, 175, 55, 0.3);
         }
-        .luxury-envelope.open .envelope-top-flap {
+        .rustic-envelope-wrapper.open .burgundy-flap {
             transform: rotateX(-180deg);
             z-index: 1;
         }
 
-        /* Sello Dorado en Relieve de Alta Gama[cite: 3, 4] */
-        .gold-seal {
+        /* Tarjeta Interior Opalina */
+        .inner-card {
             position: absolute;
-            top: 108px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 72px;
-            height: 72px;
-            background: radial-gradient(circle at 30% 30%, #fceabb 0%, #e6be4ae5 55%, #9e7b12 100%);
-            border-radius: 50%;
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #7d600e;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4), inset 0 2px 5px rgba(255,255,255,0.7);
+            bottom: 15px; left: 5%; width: 90%; height: 215px;
+            background: #ffffff;
+            border: 1px solid #dcd6c8; border-radius: 4px;
+            padding: 24px; text-align: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+        }
+        .rustic-envelope-wrapper.open .inner-card {
+            transform: translateY(-130px) scale(1.03);
+            z-index: 10;
+        }
+
+        /* Sello de Lacre Bordó con Escudo Dorado en Relieve */
+        .burgundy-gold-seal {
+            position: absolute;
+            top: 115px; left: 50%; transform: translateX(-50%);
+            width: 75px; height: 75px;
+            background: radial-gradient(circle at 35% 35%, #7a2631 0%, #5c1d24 60%, #3a1015 100%);
+            border-radius: 50%; z-index: 20;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid #d4af37; /* Borde dorado metálico */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.3);
             transition: transform 0.4s ease, opacity 0.5s ease;
         }
-        .gold-seal span {
+        .burgundy-gold-seal span {
             font-family: 'Playfair Display', serif;
-            color: #4a3809;
-            font-size: 20px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+            color: #d4af37; /* Iniciales en dorado metálico */
+            font-size: 16px; font-weight: bold; letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
             pointer-events: none;
+            text-align: center;
+            line-height: 1.1;
         }
-        .luxury-envelope.open .gold-seal {
-            opacity: 0;
-            transform: translateX(-50%) scale(0.4) rotate(45deg);
-            pointer-events: none;
+        .rustic-envelope-wrapper.open .burgundy-gold-seal {
+            opacity: 0; transform: translateX(-50%) scale(0.4) rotate(45deg); pointer-events: none;
         }
 
         #main-content {
@@ -169,11 +139,14 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- SOBRE DE LUJO ARTESANAL (FASE 1) -->
+    <!-- SOBRE RÚSTICO BORDÓ CON ENCAJE (FASE 1) -->
     <div id="envelope-overlay">
-        <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello dorado para abrir[cite: 3, 4]</p>
+        <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello para abrir</p>
         
-        <div class="luxury-envelope" id="envBox" onclick="openArtisanEnvelope()">
+        <div class="rustic-envelope-wrapper" id="envBox" onclick="openRusticEnvelope()">
+            <!-- Fondo con textura de encaje -->
+            <div class="lace-bg"></div>
+
             <!-- Tarjeta Interior -->
             <div class="inner-card">
                 <span class="text-[9px] uppercase tracking-[0.3em] text-[#b89b72] font-bold mb-2">Save The Date</span>
@@ -181,15 +154,12 @@
                 <p class="text-[11px] text-gray-500 italic font-serif">03.04.2027</p>
             </div>
 
-            <!-- Bolsillo del Sobre -->
-            <div class="envelope-pocket"></div>
+            <!-- Solapa Borgoña Artesanal -->
+            <div class="burgundy-flap"></div>
 
-            <!-- Solapa Superior con detalle de encaje simulado[cite: 3] -->
-            <div class="envelope-top-flap lace-pattern"></div>
-
-            <!-- Sello Dorado[cite: 3, 4] -->
-            <div class="gold-seal">
-                <span>F&Y</span>
+            <!-- Sello Lacre Borgoña con Escudo Dorado -->
+            <div class="burgundy-gold-seal">
+                <span>F&amp;Y<br><span style="font-size: 8px; font-weight: normal; opacity: 0.8;">2027</span></span>
             </div>
         </div>
     </div>
@@ -223,7 +193,7 @@
     </main>
 
     <script>
-        function openArtisanEnvelope() {
+        function openRusticEnvelope() {
             const box = document.getElementById('envBox');
             const overlay = document.getElementById('envelope-overlay');
             const mainContent = document.getElementById('main-content');
