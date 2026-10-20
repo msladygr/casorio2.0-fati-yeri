@@ -6,131 +6,145 @@
     <title>Fati & Yeri • 03.04.2027</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* --- RESETEO TOTAL PARA EL CONCEPTO SOBRE --- */
         body {
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             width: 100%;
-            height: 100%;
-            /* El fondo del body es el color del papel del sobre */
-            background-color: #f3eee3; 
+            background-color: #f3eee3; /* Tono lino / papel artesanal */
             font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #2c3531;
         }
 
         h1, h2, h3, .font-editorial {
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- 1. LA SOLAPA DEL SOBRE (INMERSIVA) --- */
-        #envelope-flap {
+        /* --- SISTEMA DE HOJAS OTOÑALES FLOTANTES --- */
+        .falling-leaves {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 55%; /* Ocupa la mitad superior */
-            background-color: #e1dccf; /* Un tono más oscuro para la solapa */
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%); /* Forma geométrica de solapa */
-            z-index: 100;
-            transform-origin: top;
-            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            pointer-events: none; /* Para que no moleste al hacer click en el sello */
+            height: 100%;
+            pointer-events: none;
+            z-index: 120;
+            overflow: hidden;
+        }
+        .leaf {
+            position: absolute;
+            display: block;
+            width: 18px;
+            height: 18px;
+            background: #b89b72;
+            opacity: 0.4;
+            animation: fall linear infinite;
+            border-radius: 0 70% 0 70%;
+        }
+        .leaf:nth-child(2n) { background: #946853; border-radius: 70% 0 70% 0; }
+        .leaf:nth-child(3n) { background: #7a8670; }
+        @keyframes fall {
+            0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateX(40px) rotate(180deg); }
+            100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        #envelope-flap.open {
-            transform: rotateX(-180deg); /* Se abre hacia arriba */
-        }
-
-        /* --- 2. LA CUERPO DEL SOBRE (LA PARTE DE ABAJO) --- */
-        #envelope-body {
+        /* --- SOBRE EDITORIAL SUAVE --- */
+        #envelope-container {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%; /* La otra mitad */
+            inset: 0;
+            z-index: 150;
             background-color: #f3eee3;
-            z-index: 50;
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
         }
-
-        /* --- 3. EL SELLO DE LACRE (EL BOTÓN DE APERTURA) --- */
-        #wax-seal-btn {
-            position: fixed;
-            top: 48%; /* Justo en el centro de la pantalla */
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90px;
-            height: 90px;
-            background-color: #8c3b32; /* Color lacre clásico */
-            border-radius: 50%;
-            z-index: 150; /* Por encima de la solapa */
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #6b2b25;
-            -webkit-tap-highlight-color: transparent; /* Quita el halo azul de mobile */
-        }
-
-        #wax-seal-btn:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-            background-color: #a5443a;
-        }
-
-        #wax-seal-btn:active {
-            transform: translate(-50%, -50%) scale(0.95);
-        }
-
-        #wax-seal-btn span {
-            font-family: 'Playfair Display', serif;
-            color: #fcfbfa;
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 2px;
+        #envelope-container.fade-out {
+            opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
-        /* Animación de ruptura del sello al hacer click */
-        #wax-seal-btn.breaking {
-             animation: breakSeal 0.5s ease-out forwards;
-        }
-
-        @keyframes breakSeal {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; visibility: hidden; }
-        }
-
-        /* --- 4. LA INVITACIÓN (LO QUE ESTÁ ADENTRO) --- */
-        #invitation-content {
+        /* Solapa con relieve y sombra suave */
+        #envelope-flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            min-height: 100vh;
-            /* Este fondo debe contrastar suavemente con el sobre */
-            background-color: #1a221e; /* Un verde oscuro elegante */
-            color: #f4f1ea;
-            z-index: 25; /* Por debajo del sobre y la solapa */
-            padding: 60px 20px;
+            height: 55%;
+            background: linear-gradient(180deg, #eae3d2 0%, #e1dccf 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            transform-origin: top;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            z-index: 160;
+        }
+        #envelope-flap.open {
+            transform: rotateX(-180deg);
+        }
+
+        /* Cuerpo inferior del sobre */
+        #envelope-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: #f3eee3;
+            z-index: 140;
+        }
+
+        /* Sello de Lacre con Brillo Sutil (Glow) */
+        #wax-seal-btn {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85px;
+            height: 85px;
+            background: radial-gradient(circle at 30% 30%, #a2463d 0%, #8c3b32 60%, #6b2b25 100%);
+            border-radius: 50%;
+            z-index: 180;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(140, 59, 50, 0.4), 0 0 20px rgba(184, 155, 114, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #5c241f;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #wax-seal-btn:hover {
+            transform: translate(-50%, -50%) scale(1.08);
+            box-shadow: 0 15px 35px rgba(140, 59, 50, 0.6), 0 0 30px rgba(184, 155, 114, 0.5);
+        }
+        #wax-seal-btn span {
+            font-family: 'Playfair Display', serif;
+            color: #fcfbfa;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            pointer-events: none;
+        }
+        #wax-seal-btn.fade-seal {
+            transition: opacity 0.5s ease, transform 0.5s ease;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease 0.4s; /* Aparece cuando el sobre se abre */
+            transform: translate(-50%, -50%) scale(0.8);
         }
 
-        #invitation-content.revealed {
+        /* --- CONTENIDO PRINCIPAL DE LA INVITACIÓN --- */
+        #main-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease 0.4s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+        }
+        #main-content.revealed {
             opacity: 1;
-            visibility: visible;
+            transform: translateY(0);
         }
 
-        /* --- 5. ELEMENTOS DE LA INVITACIÓN (Mismo estilo editorial de siempre) --- */
-        .font-editorial { font-family: 'Playfair Display', serif; }
-        
+        /* Estilos generales editoriales */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -157,43 +171,58 @@
             background: rgba(255, 255, 255, 0.06);
             box-shadow: 0 0 0 4px rgba(184, 155, 114, 0.15);
         }
-        .agency-input option { background-color: #1a221e; }
-        .moving-btn { position: relative; transition: all 0.15s ease; }
+        .agency-input option { background-color: #1a221e; color: #f4f1ea; }
+        .moving-btn { position: relative; transition: all 0.15s ease; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- LA SOLAPA SUPERIOR DEL SOBRE -->
-    <div id="envelope-flap"></div>
-    
-    <!-- EL CUERPO DEL SOBRE (LA MITAD INFERIOR) -->
-    <div id="envelope-body"></div>
-
-    <!-- EL SELLO DE LACRE (BOTÓN DE APERTURA) -->
-    <div id="wax-seal-btn" onclick="openEnvelope()">
-        <span>F&Y</span>
+    <!-- Lluvia de Hojas de Otoño Constante -->
+    <div class="falling-leaves">
+        <span class="leaf" style="left: 10%; animation-duration: 14s; animation-delay: 0s;"></span>
+        <span class="leaf" style="left: 30%; animation-duration: 18s; animation-delay: 2s;"></span>
+        <span class="leaf" style="left: 50%; animation-duration: 12s; animation-delay: 1s;"></span>
+        <span class="leaf" style="left: 70%; animation-duration: 16s; animation-delay: 3s;"></span>
+        <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- LA INVITACIÓN COMPLETA (CONTENIDO OCULTO INICIALMENTE) -->
-    <div id="invitation-content">
+    <!-- PANTALLA DE ENTRADA: SOBRE EDITORIAL SUAVE -->
+    <div id="envelope-container">
+        <div id="envelope-flap"></div>
+        <div id="envelope-body"></div>
+        <!-- Sello con brillo y animación delicada -->
+        <div id="wax-seal-btn" onclick="openSmoothEnvelope()">
+            <span>F&Y</span>
+        </div>
+        <div style="position: absolute; bottom: 15%; width: 100%; text-align: center; z-index: 170; pointer-events: none;">
+            <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.3em; color: #7a7368; font-weight: 600;">Toca el sello para abrir</p>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL DE LA WEB -->
+    <main id="main-content" class="w-full flex flex-col items-center justify-start bg-[#121614] text-[#f4f1ea] min-h-screen">
         
         <!-- HERO SECTION -->
-        <section class="min-h-screen flex flex-col justify-center items-center text-center border-b border-white/10 pb-24 pt-10">
-            <div class="mb-8">
-                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 shadow-sm">
+        <section class="min-h-screen w-full flex flex-col justify-between items-center p-6 sm:p-12 relative text-center border-b border-white/10">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,48,43,0.4)_0%,rgba(18,22,20,1)_100%)] pointer-events-none"></div>
+
+            <div class="relative z-10 pt-8">
+                <span class="inline-block bg-white/5 text-[#c4b59d] text-xs font-semibold px-6 py-2 rounded-full uppercase tracking-[0.25em] border border-white/10 backdrop-blur-md">
                     03.04.2027 • Boda Editorial
                 </span>
             </div>
-            <div class="my-auto">
-                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa]">
+
+            <div class="relative z-10 my-auto py-12">
+                <h1 class="text-7xl sm:text-9xl font-editorial font-normal tracking-tight mb-6 text-[#fcfbfa] drop-shadow-lg">
                     Fati <span class="text-[#c4b59d] italic">&amp;</span> Yeri
                 </h1>
                 <p class="text-lg sm:text-2xl text-white/70 italic max-w-xl mx-auto font-light tracking-wide">
                     "Decidimos arruinar nuestras finanzas y festejar a lo grande"
                 </p>
             </div>
+
             <!-- Cuenta Regresiva -->
-            <div class="w-full max-w-md mx-auto mt-16">
+            <div class="relative z-10 w-full max-w-md mx-auto pb-6">
                 <div class="grid grid-cols-4 gap-3 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/10 text-center shadow-2xl">
                     <div><span id="days" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Días</span></div>
                     <div><span id="hours" class="block text-2xl font-editorial font-bold text-[#e2d9c8]">00</span><span class="text-[9px] uppercase tracking-[0.25em] text-white/50">Horas</span></div>
@@ -203,9 +232,9 @@
             </div>
         </section>
 
-        <!-- BIENVENIDA -->
-        <section class="w-full py-32 px-6 flex flex-col items-center justify-center text-center border-b border-white/10">
-            <div class="max-w-2xl reveal">
+        <!-- SECCIÓN DE BIENVENIDA -->
+        <section class="w-full py-24 px-6 text-center border-b border-white/10 bg-[#121614]">
+            <div class="max-w-2xl reveal mx-auto">
                 <span class="text-xs uppercase tracking-[0.3em] text-[#c4b59d] block mb-4 font-semibold">Aviso Parroquial</span>
                 <h2 class="text-4xl sm:text-6xl font-editorial text-[#fcfbfa] mb-8">Che, nos casamos</h2>
                 <p class="text-white/80 text-lg sm:text-xl font-light leading-relaxed italic font-serif">
@@ -215,19 +244,37 @@
             </div>
         </section>
 
+        <!-- UBICACIÓN (LA POSADA DE LEÓN) -->
+        <section class="w-full py-24 px-6 text-center bg-[#171e1a] border-b border-white/10">
+            <div class="max-w-xl w-full reveal mx-auto">
+                <span class="text-xs uppercase tracking-[0.3em] text-[#b89b72] font-bold block mb-3">Coordenadas del Delito 📍</span>
+                <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-6">¿Dónde va a ser el bardo?</h3>
+                <div class="bg-white/5 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-xl">
+                    <p class="text-2xl font-editorial font-bold text-[#e2d9c8] mb-3">La Posada de León</p>
+                    <p class="text-sm text-white/70 italic mb-8 leading-relaxed">"Un lugar hermoso, con mucho verde y espacio de sobra para liberar el estrés y el fernet."</p>
+                    <a href="https://www.instagram.com/laposadadeleon/?hl=es" target="_blank" class="inline-block bg-[#556b53] hover:bg-[#435541] text-white text-xs font-semibold px-8 py-4 rounded-xl shadow-lg transition tracking-[0.2em] uppercase">
+                        Chusmear el Instagram 🌿
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- RSVP / FORMULARIO INTERACTIVO -->
-        <section class="w-full py-32 px-6 flex flex-col items-center justify-center">
-            <div class="max-w-xl w-full reveal">
+        <section class="w-full py-24 px-6 bg-[#171e1a]">
+            <div class="max-w-xl w-full reveal mx-auto">
                 <div class="text-center mb-12">
                     <span class="text-xs uppercase tracking-[0.3em] text-[#556b53] font-bold block mb-3">RSVP</span>
                     <h3 class="text-4xl font-editorial text-[#fcfbfa] mb-3">Confirmación de Asistencia</h3>
+                    <p class="text-sm text-white/60">Completá tus datos para asegurar tu lugar en el evento.</p>
                 </div>
+
                 <form id="weddingForm" action="https://formspree.io/f/moejzbgy" method="POST" class="space-y-6">
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
                         <label class="block text-sm font-bold text-[#e2d9c8] mb-2">¿Quién chota sos?</label>
-                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa">
+                        <input type="text" name="nombre" required class="agency-input" placeholder="Ej. Tu tía la chismosa / Tu mejor amigo">
                     </div>
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
                         <label class="block text-sm font-bold text-[#e2d9c8] mb-2">1. ¿Quién de las dos va a mandar en el matrimonio?</label>
                         <select name="manda_matrimonio" required class="agency-input cursor-pointer">
                             <option value="" disabled selected>Seleccioná una, loco, dale 🧐</option>
@@ -236,62 +283,75 @@
                             <option value="anarquia">Ninguna, son las gatas las que mandan.</option>
                         </select>
                     </div>
-                    <div class="bg-white/5 p-8 rounded-3xl border border-white/10">
+
+                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10">
                         <label class="block text-sm font-bold text-[#e2d9c8] mb-2">2. ¿En qué modo de transporte caés a la joda?</label>
                         <select name="transporte_compania" required class="agency-input cursor-pointer">
                             <option value="" disabled selected>A ver cómo nos movemos, contame 🚗</option>
                             <option value="auto_propio">En auto propio (tengo lugar para sumar gente o manejo tomando agua).</option>
                             <option value="uber_remis">En Uber / Cabify / Remis (vengo con el hígado listo para la barra libre).</option>
-                            <option value="con_compania">Vengo con mi +1 (traigo refuezos para aguantar hasta el amanecer).</option>
+                            <option value="con_compania">Vengo con mi +1 (traigo refuerzos para aguantar hasta el amanecer).</option>
                         </select>
                     </div>
+
                     <div class="pt-8 text-center">
                         <p class="text-sm font-editorial font-bold text-[#e2d9c8] mb-6">¿Te esperamos o qué?</p>
+                        
+                        <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
+
                         <div id="botonesContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 relative min-h-[90px]">
-                            <button type="submit" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105">¡Sí, ahí estaré! 🥂</button>
-                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl">No puedo ir 🍃</button>
-                            <input type="hidden" name="asistencia" id="asistenciaInput" value="Pendiente">
+                            <button type="submit" id="btnYes" onclick="document.getElementById('asistenciaInput').value='Sí, ahí estaré';" class="w-full sm:w-auto bg-[#556b53] hover:bg-[#435541] text-white font-medium px-8 py-4 rounded-2xl shadow-xl transition transform hover:scale-105 tracking-wide">
+                                ¡Sí, ahí estaré! 🥂
+                            </button>
+
+                            <button type="button" id="btnNo" onmouseover="handleNoInteraction()" onclick="handleNoInteraction()" class="moving-btn w-full sm:w-auto bg-[#946853] hover:bg-[#7e5744] text-white font-medium px-8 py-4 rounded-2xl shadow-xl tracking-wide">
+                                No puedo ir 🍃
+                            </button>
                         </div>
                     </div>
                 </form>
+
                 <div id="successMessage" class="hidden text-center py-16">
                     <div class="w-16 h-16 bg-[#556b53]/20 text-[#556b53] rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-[#556b53]/40">🌿</div>
-                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados!</h3>
-                    <p class="text-white/60 text-sm italic">"Ya le avisamos al DJ que prepare la cumbia."</p>
+                    <h3 class="text-3xl font-editorial text-[#fcfbfa] mb-2">¡Datos guardados con éxito!</h3>
+                    <p class="text-white/60 text-sm italic">"Gracias por confirmar. Ya le avisamos al DJ que prepare los parlantes y la cumbia."</p>
                 </div>
             </div>
         </section>
 
-    </div>
+    </main>
 
-    <!-- Script de la Fase 1 (Sobre Inmersivo) -->
+    <!-- FOOTER -->
+    <footer class="bg-[#0e1210] text-white/40 py-12 text-center text-xs tracking-[0.25em] uppercase font-light border-t border-white/5">
+        Fati &amp; Yeri • 03.04.2027
+    </footer>
+
+    <!-- Script de Animación Suave y Funcionalidades -->
     <script>
-        function openEnvelope() {
-            const flap = document.getElementById('envelope-flap');
+        function openSmoothEnvelope() {
             const seal = document.getElementById('wax-seal-btn');
-            const invitation = document.getElementById('invitation-content');
+            const flap = document.getElementById('envelope-flap');
+            const container = document.getElementById('envelope-container');
+            const mainContent = document.getElementById('main-content');
 
-            // 1. Anima la ruptura del sello
-            seal.classList.add('breaking');
+            // 1. Desvanece el sello suavemente con un leve zoom
+            seal.classList.add('fade-seal');
 
-            // 2. Abre la solapa
+            // 2. Abre la solapa con una curva de animación fluida y elegante
             setTimeout(() => {
                 flap.classList.add('open');
-            }, 150);
+            }, 200);
 
-            // 3. Revela el contenido de la invitación
+            // 3. Funde el fondo del sobre completo para revelar la web principal
             setTimeout(() => {
-                invitation.classList.add('revealed');
-            }, 450);
+                container.classList.add('fade-out');
+                mainContent.classList.add('revealed');
+            }, 750);
 
-            // 4. Elimina el sello y el sobre del DOM para no molestar
+            // 4. Limpia el DOM del sobre después de la transición
             setTimeout(() => {
-                seal.remove();
-                flap.remove();
-                document.getElementById('envelope-body').remove();
-                // Habilita el scroll de la página una vez abierta
-                document.body.style.overflow = 'auto';
-            }, 1000);
+                container.remove();
+            }, 2000);
         }
 
         // Cuenta Regresiva
@@ -305,18 +365,8 @@
                 document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
             }
         }
-        setInterval(updateCountdown, 1000); updateCountdown();
-
-        // Botón Escurridizo
-        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
-        function handleNoInteraction() {
-            intentoNo++;
-            if (intentoNo < 4) {
-                const x = Math.random() * (window.innerWidth < 640 ? 140 : 200) - 100;
-                const y = Math.random() * 100 - 50;
-                btnNo.style.transform = `translate(${x}px, ${y}px)`;
-            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
-        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
         // Scroll Reveal Observer
         const observer = new IntersectionObserver((entries) => {
@@ -324,7 +374,18 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
 
-        // AJAX Formspree
+        // Botón Escurridizo
+        const btnNo = document.getElementById('btnNo'); let intentoNo = 0;
+        function handleNoInteraction() {
+            intentoNo++;
+            if (intentoNo < 4) {
+                const x = Math.random() * 160 - 80;
+                const y = Math.random() * 100 - 50;
+                btnNo.style.transform = `translate(${x}px, ${y}px)`;
+            } else { alert('OAAAA, ¿creías que te íbamos a dejar que no vengas? 🤌✨'); btnNo.remove(); }
+        }
+
+        // Envío Formspree
         const form = document.getElementById('weddingForm');
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -332,7 +393,7 @@
                 await fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } });
                 form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
             } catch (err) {
-                 form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
+                form.classList.add('hidden'); document.getElementById('successMessage').classList.remove('hidden');
             }
         });
     </script>
