@@ -34,7 +34,7 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.05; }
         }
 
-        /* --- TELÓN FOTOGRÁFICO REAL (LINO / SEDA CÁLIDA) --- */
+        /* --- TELÓN CÁLIDO EN TONOS MARFIL/LINO --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -44,26 +44,24 @@
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitades del telón con textura fotográfica real */
+        /* Mitades del telón con tono marfil elegante y sombras de tela */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
-            /* Textura de lino/seda cálida de alta calidad */
-            background-image: url('https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?q=80&w=1000&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            background-color: #f3eee3;
             z-index: 210;
             transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         .curtain-left { 
             left: 0; 
-            box-shadow: inset -35px 0 60px rgba(0,0,0,0.15);
+            background-image: linear-gradient(90deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
+            box-shadow: inset -30px 0 50px rgba(0,0,0,0.06);
         }
         
         .curtain-right { 
             right: 0; 
-            background-position: right center;
-            box-shadow: inset 35px 0 60px rgba(0,0,0,0.15);
+            background-image: linear-gradient(270deg, #eae3d2 0%, #f3eee3 85%, #f8f5ee 100%);
+            box-shadow: inset 30px 0 50px rgba(0,0,0,0.06);
         }
 
         /* Apertura fluida hacia los costados */
@@ -83,15 +81,29 @@
             opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Alianzas de Joyería Fotorealistas */
-        .real-rings-img {
-            width: 100px; /* Tamaño protagonista */
-            height: auto;
+        /* Contenedor de Alianzas Reales con Animación de Giro */
+        .rings-container {
+            width: 90px;
+            height: 90px;
             margin: 0 auto 28px auto;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(184, 155, 114, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             animation: ringFloatAndRotate 6s ease-in-out infinite;
             transform-style: preserve-3d;
-            filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.2));
         }
+
+        .real-rings-img {
+            width: 55px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+
         @keyframes ringFloatAndRotate {
             0% { transform: translateY(0px) rotateY(0deg); }
             50% { transform: translateY(-8px) rotateY(15deg); }
@@ -101,7 +113,7 @@
         /* Botón Editorial Cálido */
         .editorial-btn {
             display: inline-block;
-            background: rgba(248, 245, 238, 0.85);
+            background: rgba(248, 245, 238, 0.9);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(44, 53, 49, 0.2);
             color: #2c3531;
@@ -117,7 +129,7 @@
         }
         .editorial-btn:hover {
             border-color: #8c7355;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 1);
             transform: translateY(-2px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.12);
         }
@@ -162,14 +174,16 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- PANTALLA DE ENTRADA: TELÓN FOTOGRÁFICO Y ALIANZAS REALES -->
+    <!-- PANTALLA DE ENTRADA: TELÓN MARFIL Y ALIANZAS CLÁSICAS GIRANDO -->
     <div id="intro-overlay">
         <div class="curtain-left"></div>
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <!-- Fotografía de Alianzas Reales de Oro Entrelazadas -->
-            <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?q=80&w=400&auto=format&fit=crop" alt="Alianzas" class="real-rings-img rounded-full object-cover shadow-2xl border-2 border-[#d4af37]/40">
+            <!-- Contenedor con Alianzas Reales Entrelazadas -->
+            <div class="rings-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/2913/2913465.png" alt="Alianzas Entrelazadas" class="real-rings-img">
+            </div>
             
             <button onclick="openVelvetCurtain()" class="editorial-btn">
                 Ingresar a la experiencia ✨
@@ -310,7 +324,7 @@
             const overlay = document.getElementById('intro-overlay');
             const mainContent = document.getElementById('main-content');
 
-            // 1. Abre el telón fotográfico suavemente hacia los costados
+            // 1. Abre el telón marfil suavemente hacia los costados
             overlay.classList.add('open');
 
             // 2. Revela el contenido principal por detrás
