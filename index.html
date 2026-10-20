@@ -32,66 +32,113 @@
             100% { top: 110%; transform: translateX(-30px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* --- SOBRE TIPO EDITORIAL DE LUJO --- */
+        /* --- CONTENEDOR GENERAL DEL SOBRE --- */
         #envelope-overlay {
             position: fixed; inset: 0;
-            background: #161c18;
-            z-index: 200; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, #1c2420 0%, #0d110f 100%);
+            z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
         }
         #envelope-overlay.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-        .realistic-envelope {
-            position: relative; width: 90%; max-width: 440px; height: 310px;
-            background: #fdfbf7; border-radius: 6px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        .envelope-container {
+            position: relative;
+            width: 340px;
+            height: 230px;
+            background: #fdfbf7;
+            border-radius: 4px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            cursor: pointer;
+            perspective: 1200px;
         }
 
-        /* Solapa superior simulada con elegancia */
-        .envelope-top-flap {
-            position: absolute; top: 0; left: 0; width: 100%; height: 155px;
-            background: linear-gradient(135deg, #ffffff 0%, #f4ede2 100%);
-            clip-path: polygon(0 0, 50% 100%, 100% 0);
-            border-bottom: 1px solid rgba(184, 155, 114, 0.3);
-            z-index: 5;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-            transform-origin: top;
-        }
-        .realistic-envelope.open .envelope-top-flap {
-            transform: rotateX(180deg); z-index: 1;
-        }
-
-        /* Sello Dorado Central con Relieve */
-        .gold-seal-btn {
-            position: absolute; top: 135px; left: 50%; transform: translateX(-50%);
-            width: 80px; height: 80px;
-            background: radial-gradient(circle at 30% 30%, #fceabb 0%, #f3d06b 50%, #b89322 100%);
-            border-radius: 50%; z-index: 20;
-            display: flex; align-items: center; justify-content: center;
-            border: 2px solid #8c6d16;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7);
-            cursor: pointer; transition: transform 0.3s ease, opacity 0.5s ease;
-        }
-        .gold-seal-btn:hover { transform: translateX(-50%) scale(1.06); }
-        .gold-seal-btn span {
-            font-family: 'Playfair Display', serif; color: #4a3809;
-            font-size: 22px; font-weight: bold; letter-spacing: 1px; pointer-events: none;
-        }
-        .realistic-envelope.open .gold-seal-btn {
-            opacity: 0; transform: translateX(-50%) scale(0.5); pointer-events: none;
-        }
-
-        /* Tarjeta que emerge */
+        /* 1. La tarjeta interior (comienza OCULTA dentro del sobre, z-index bajo) */
         .inner-card {
-            position: absolute; bottom: 15px; width: 88%; height: 260px;
-            background: #ffffff; border-radius: 4px; padding: 25px; text-align: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 2; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: absolute;
+            bottom: 15px;
+            left: 5%;
+            width: 90%;
+            height: 190px;
+            background: #ffffff;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2; /* Atrapada dentro del sobre */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
         }
-        .realistic-envelope.open .inner-card {
-            transform: translateY(-130px) scale(1.02); z-index: 10;
+        .envelope-container.open .inner-card {
+            transform: translateY(-115px) scale(1.02);
+            z-index: 10; /* Sale por delante al abrirse */
+        }
+
+        /* 2. El cuerpo/bolsillo frontal del sobre (z-index medio) */
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #f7f4ed 0%, #ede6d6 100%);
+            border-radius: 4px;
+            z-index: 5;
+            box-shadow: inset 0 -5px 15px rgba(0,0,0,0.05);
+            pointer-events: none;
+        }
+
+        /* 3. La solapa superior que se abre (z-index alto) */
+        .envelope-top-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 115px;
+            background: linear-gradient(135deg, #ffffff 0%, #f4ede2 100%);
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 15;
+            border-bottom: 1px solid rgba(184, 155, 114, 0.2);
+        }
+        .envelope-container.open .envelope-top-flap {
+            transform: rotateX(180deg);
+            z-index: 1; /* Se va para atrás al abrirse */
+        }
+
+        /* 4. El Sello Dorado en el vértice exacto (z-index superior) */
+        .gold-seal {
+            position: absolute;
+            top: 95px; /* Justo en la punta inferior de la solapa */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle at 30% 30%, #fceabb 0%, #f3d06b 50%, #b89322 100%);
+            border-radius: 50%;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #8c6d16;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.6);
+            transition: transform 0.4s ease, opacity 0.5s ease;
+        }
+        .gold-seal span {
+            font-family: 'Playfair Display', serif;
+            color: #4a3809;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+        .envelope-container.open .gold-seal {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.5);
+            pointer-events: none;
         }
 
         #main-content {
@@ -111,23 +158,27 @@
         <span class="leaf" style="left: 90%; animation-duration: 13s; animation-delay: 1.5s;"></span>
     </div>
 
-    <!-- SOBRE DE LUJO -->
+    <!-- SOBRE DE LUJO UNBOXING -->
     <div id="envelope-overlay">
-        <div class="text-center w-full flex flex-col items-center">
-            <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Presiona el sello dorado</p>
-            
-            <div class="realistic-envelope" id="envBox" onclick="openLuxuryEnvelope()">
-                <div class="envelope-top-flap"></div>
-                
-                <div class="inner-card">
-                    <span class="text-[9px] uppercase tracking-[0.3em] text-[#b89b72] font-bold mb-3">Save The Date</span>
-                    <h2 class="font-editorial text-3xl text-[#121614] mb-2">Fati &amp; Yeri</h2>
-                    <p class="text-xs text-gray-500 italic font-serif">03.04.2027</p>
-                </div>
+        <p class="text-[10px] uppercase tracking-[0.35em] text-[#c4b59d] mb-6 font-semibold animate-pulse">Toca el sello dorado</p>
+        
+        <div class="envelope-container" id="envBox" onclick="openTrueEnvelope()">
+            <!-- Tarjeta oculta dentro -->
+            <div class="inner-card">
+                <span class="text-[9px] uppercase tracking-[0.3em] text-[#b89b72] font-bold mb-2">Save The Date</span>
+                <h2 class="font-editorial text-2xl text-[#121614] mb-1">Fati &amp; Yeri</h2>
+                <p class="text-[11px] text-gray-500 italic font-serif">03.04.2027</p>
+            </div>
 
-                <div class="gold-seal-btn">
-                    <span>F&Y</span>
-                </div>
+            <!-- Bolsillo frontal del sobre -->
+            <div class="envelope-pocket"></div>
+
+            <!-- Solapa superior -->
+            <div class="envelope-top-flap"></div>
+
+            <!-- Sello Dorado en el vértice -->
+            <div class="gold-seal">
+                <span>F&Y</span>
             </div>
         </div>
     </div>
@@ -161,7 +212,7 @@
     </main>
 
     <script>
-        function openLuxuryEnvelope() {
+        function openTrueEnvelope() {
             const box = document.getElementById('envBox');
             const overlay = document.getElementById('envelope-overlay');
             const mainContent = document.getElementById('main-content');
