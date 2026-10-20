@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fati & Yeri • 03.04.2027 (Intro)</title>
+    <title>Fati & Yeri • 03.04.2027</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -15,7 +15,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* --- TELÓN CÁLIDO CON TEXTURA DE LINO / TELA REAL --- */
+        /* --- TELÓN CON LUCES Y SOMBRAS VOLUMÉTRICAS REALISTAS --- */
         #intro-overlay {
             position: fixed; inset: 0; z-index: 200;
             display: flex; align-items: center; justify-content: center;
@@ -25,29 +25,26 @@
             visibility: hidden; pointer-events: none;
         }
 
-        /* Mitades del telón con trama textil simulada y sombras de profundidad */
+        /* Mitades del telón con gradientes de luz lateral y sombras de pliegue profundo */
         .curtain-left, .curtain-right {
             position: absolute; top: 0; width: 50%; height: 100%;
             background-color: #f3eee3;
-            background-image: 
-                radial-gradient(rgba(184, 155, 114, 0.08) 1px, transparent 1px),
-                radial-gradient(rgba(184, 155, 114, 0.06) 1px, #f3eee3 1px);
-            background-size: 6px 6px;
-            background-position: 0 0, 3px 3px;
             z-index: 210;
             transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
         
         .curtain-left { 
             left: 0; 
-            box-shadow: inset -40px 0 60px rgba(0,0,0,0.08);
-            border-right: 0.5px solid rgba(184, 155, 114, 0.15);
+            /* Gradiente complejo que simula la luz de un lado y una sombra de pliegue pesada en el centro */
+            background-image: linear-gradient(90deg, #ede7db 0%, #f4f0e6 65%, #dfd4c0 92%, #c9bc9f 100%);
+            box-shadow: inset -50px 0 80px rgba(0,0,0,0.14);
         }
         
         .curtain-right { 
             right: 0; 
-            box-shadow: inset 40px 0 60px rgba(0,0,0,0.08);
-            border-left: 0.5px solid rgba(184, 155, 114, 0.15);
+            /* Simetría del pliegue central y la iluminación lateral */
+            background-image: linear-gradient(270deg, #ede7db 0%, #f4f0e6 65%, #dfd4c0 92%, #c9bc9f 100%);
+            box-shadow: inset 50px 0 80px rgba(0,0,0,0.14);
         }
 
         /* Apertura fluida hacia los costados */
@@ -67,7 +64,7 @@
             opacity: 0; transform: scale(0.97); pointer-events: none;
         }
 
-        /* Alianzas 3D con Relieve y Flotación Suave */
+        /* Alianzas 3D con Relieve */
         .rings-wrapper {
             margin: 0 auto 32px auto;
             display: inline-block;
@@ -120,11 +117,10 @@
         <div class="curtain-right"></div>
         
         <div class="intro-content">
-            <!-- Alianzas con Relieve 3D y Efecto Convexa de Joyería -->
+            <!-- Alianzas con Relieve 3D -->
             <div class="rings-wrapper">
                 <svg class="gold-ring-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <!-- Gradientes de Oro Real con alto contraste para dar volumen 3D -->
                         <linearGradient id="gold3D_1" x1="20%" y1="0%" x2="80%" y2="100%">
                             <stop offset="0%" stop-color="#fae19b"/>
                             <stop offset="25%" stop-color="#f3cb53"/>
@@ -141,24 +137,16 @@
                         </linearGradient>
                     </defs>
 
-                    <!-- ANILLO IZQUIERDO (CON RELIEVE 3D) -->
-                    <!-- Sombra interna / base del aro -->
+                    <!-- Anillo Izquierdo -->
                     <circle cx="44" cy="60" r="24" stroke="#2c1a01" stroke-width="11" opacity="0.3"/>
-                    <!-- Aro principal con volumen -->
                     <circle cx="44" cy="60" r="24" stroke="url(#gold3D_1)" stroke-width="10" />
-                    <!-- Núcleo brillante en relieve (simula la curvatura convexa del metal) -->
                     <circle cx="44" cy="60" r="24" stroke="#ffe891" stroke-width="3.5" opacity="0.8"/>
-                    <!-- Reflejo especular superior -->
                     <path d="M28 47C32 39 40 37 48 38" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
 
-                    <!-- ANILLO DERECHO (ENTRELAZADO CON RELIEVE 3D) -->
-                    <!-- Sombra interna / base del aro -->
+                    <!-- Anillo Derecho -->
                     <circle cx="76" cy="60" r="24" stroke="#2c1a01" stroke-width="11" opacity="0.3"/>
-                    <!-- Aro principal con volumen -->
                     <circle cx="76" cy="60" r="24" stroke="url(#gold3D_2)" stroke-width="10" />
-                    <!-- Núcleo brillante en relieve -->
                     <circle cx="76" cy="60" r="24" stroke="#fff1b0" stroke-width="3.5" opacity="0.8"/>
-                    <!-- Reflejo especular lateral/inferior -->
                     <path d="M70 81C78 81 85 78 89 71" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
                 </svg>
             </div>
